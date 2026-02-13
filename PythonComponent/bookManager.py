@@ -8,7 +8,7 @@ def book_search(data, book_id):
     index = 0
 
     for i in data['id'].values():
-        index += 1 # find index location of required info accross all keys
+        index += 1 # find index location (row) of required info accross all keys
         if i == book_id:
             print(
                 '\nBook details:\n'
@@ -68,7 +68,7 @@ def update_info(data, book_id):
     update_option_loop = True # looping flag for this function only
     index = 0
 
-    for i in data['id'].values(): # find index location of required info across all keys
+    for i in data['id'].values(): # find index location (row) of required info across all keys
         index += 1
         if i == book_id:
             index = index - 1

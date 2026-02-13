@@ -2,12 +2,10 @@
 import bookManager
 
 import pandas as pd
+import pandas.errors
 import os
 
 # initialization of variables
-books = {'id': [], 'isbn': [], 'title': [], 'copies': [], 'available': [], 'price': []}
-students = {'id': [], 'firstName': []}
-transactions = {'date': [], 'bookId': [], 'studentId': [], 'type': []}
 file_names = ['book','student','transactions'] # files names of the .csv files
 br = '------------------------------------------------------------------'  # line break for clarity
 option_loop = True
@@ -27,19 +25,22 @@ try:
 except Exception as e:
     print(f'An error occurred while preparing directory and data for system: {e}')
 
-# get csv data as dictionaries. if files empty, user empty dictionaries
+# get csv data as dictionaries. if files empty, use empty dictionaries
 try:
     books_df = pd.read_csv("C:/LibraryData/book.csv")
     books = books_df.to_dict()
-
+except pandas.errors.EmptyDataError:
+    books = {'id': [], 'isbn': [], 'title': [], 'copies': [], 'available': [], 'price': []}
+try:
     students_df = pd.read_csv("C:/LibraryData/student.csv")
     students = students_df.to_dict()
-
+except pandas.errors.EmptyDataError:
+    students = {'id': [], 'firstName': []}
+try:
     transactions_df = pd.read_csv("C:/LibraryData/transactions.csv")
     transactions = transactions_df.to_dict()
-
-except Exception as e:
-    print(f'An error occurred while accessing data of .csv files: {e}')
+except pandas.errors.EmptyDataError:
+    transactions = {'date': [], 'bookId': [], 'studentId': [], 'type': []}
 
 # starting point of program
 print(f'{br}\nWelcome to the Library Management System.\n')
