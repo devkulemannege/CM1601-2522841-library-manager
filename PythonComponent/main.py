@@ -8,7 +8,8 @@ import os
 books = {'id': [], 'isbn': [], 'title': [], 'copies': [], 'available': [], 'price': []}
 students = {'id': [], 'firstName': []}
 transactions = {'date': [], 'bookId': [], 'studentId': [], 'type': []}
-file_names = ['book','student','transactions']
+file_names = ['book','student','transactions'] # files names of the .csv files
+br = '------------------------------------------------------------------'  # line break for clarity
 option_loop = True
 
 def create_file(name):
@@ -41,22 +42,24 @@ except Exception as e:
     print(f'An error occurred while accessing data of .csv files: {e}')
 
 # starting point of program
-print('Welcome to the Library Management System.\n')
-print(
-    '1. Manage books\n'
-    '2. Add Student\n'
-    '3. Issue Book\n'
-    '4. Return Book\n'
-    '5. Exit'
-)
+print(f'{br}\nWelcome to the Library Management System.\n')
 
 while option_loop:
-    usr_choice = input('\nPlease select an option (1,2,3,4,5): ')
+    print(
+        '1. Manage books\n'
+        '2. Add Student\n'
+        '3. Issue Book\n'
+        '4. Return Book\n'
+        '5. Exit'
+    )
+    usr_choice = input('\n-> Please select an option (1,2,3,4,5): ')
+    print(br) # line break
+
     match usr_choice:
         case '1':
-            bookManager.access_manager(data=books)
+            bookManager.access_manager(books)
         case '5':
             option_loop = False # disable menu-loop flag
             exit()
         case _ :
-            print('Please select an option from 1 to 5.')
+            print('>> Please select an option from 1 to 4 <<\n')
