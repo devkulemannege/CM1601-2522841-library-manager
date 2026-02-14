@@ -127,6 +127,45 @@ def update_info(data, book_id):
     )
     return
 
+def delete_info(data, book_id):
+    """delete information of a specified book
+    :param data - "books" dictionary
+    :param book_id - book ID of required book"""
+    update_option_loop = True  # looping flag for this function only
+    index = 0
+
+    for i in data['id'].values(): # find index location (row) of required info across all keys
+        index += 1
+        if i == book_id:
+            index = index - 1
+            break
+
+    while update_option_loop:
+        print(
+            '\nAre you sure you want to delete the following?\n'
+            f'\tTitle: {data['title'][index]}\n'
+            f'\tISBN: {data['isbn'][index]}\n'
+            f'\tBook ID: {data['id'][index]}\n'
+            f'\tNumber of Copies: {data['copies'][index]}\n'
+            f'\tAvailable Copies: {data['available'][index]}\n'
+            f'\tPrice: {data['price'][index]}\n'
+        )
+        usr_option = input('Select an option (y/n): ')
+
+        if usr_option not in ['y','n']: # input validation
+            print('>> Please select "y" or "n" <<')
+            continue
+        elif usr_option == 'y':
+            info_list = ['title', 'isbn', 'id', 'available', 'copies', 'price']
+            for info in info_list: # for loop to reduce code redundancy
+                del data[info][index] # delete row of specified book
+
+        # re-adjust the order of indexes since deleting values will change the index order (ex: 0,1,2,4 -> 0,1,2,3)
+        for key in data.keys():
+            data[key] = dict(enumerate(data[key].values()))
+        break
+    return
+
 def access_manager(data):
     """menu which controls the flow of book managing component of LMS
     :param data - "books" dictionary """
@@ -138,7 +177,8 @@ def access_manager(data):
             '1. View Details of a Book.\n'
             '2. Add a New Book.\n'
             '3. Edit Information of a Book.\n'
-            '4. Go to Main Menu.'
+            '4. Delete Information of a Book\n'
+            '5. Go to Main Menu.'
         )
 
         usr_choice = input('\n-> Please select an option (1,2,3,4): ')
@@ -165,6 +205,14 @@ def access_manager(data):
                 update_info(data, book_id)
                 print(br)
             case '4':
+                book_id = input('-> Enter book ID: ')
+                if book_id not in data['id'].values():  # evaluate for the existence of book ID
+                    print(f'Given Book ID does not exist.\n{br}')
+                    continue
+
+                delete_info(data, book_id)
+                print(br)
+            case '5':
                 option_loop = False
                 break
             case _:
