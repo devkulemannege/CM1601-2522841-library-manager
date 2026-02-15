@@ -1,4 +1,6 @@
 # global variables
+from langchain_core.language_models import FakeStreamingListLLM
+
 br = '---------------------------------'
 
 def check_validator(isbn):
@@ -44,7 +46,7 @@ def add_book(data):
     last_index = len(data['id'].values()) - 1  # get index location of final data row - 1
     update_option_loop = True
 
-    print('\nEnter book information. Press ENTER to go to previous menu.')
+    print('Enter book information. Press ENTER to go to previous menu.')
 
     while update_option_loop:
         id_input = input('Enter book ID: ')
@@ -55,18 +57,17 @@ def add_book(data):
             return
 
         isbn_input = str(input('Enter ISBN: '))
-        if not isbn_input.isnumeric(): # input validation
+        if not ( # input validation
+                isbn_input.isnumeric() and
+                len(isbn_input) == 13 and
+                isbn_input[-1] == check_validator(isbn_input)
+        ):
             print('>> Entered ISBN number is invalid <<\n')
-        elif isbn_input in str(data['isbn'].values()):  # evaluate if ISBN already exists
+            continue
+        if isbn_input in str(data['isbn'].values()):  # evaluate if ISBN already exists
             print('Book with matching ISBN already exists.\n')
             continue
-        elif len(isbn_input) != 13:  # evaluate length of given isbn
-            print('>> Entered ISBN number is invalid <<\n')
-            continue
-        elif isbn_input[-1] != check_validator(isbn_input): # evaluate check digit
-            print('>> Entered ISBN number is invalid <<\n')
-            continue
-        elif isbn_input == '':
+        if isbn_input == '':
             return
 
         title_input = input('Enter book title: ')
@@ -132,7 +133,7 @@ def update_info(data, book_id):
     :param data - "books" dictionary
     :param book_id - book ID of required book"""
     update_option_loop = True # looping flag for this function only
-    check_digit = 0
+    display_flag = True
     index = 0
 
     for i in data['id'].values(): # find index location (row) of required info across all keys
@@ -143,19 +144,23 @@ def update_info(data, book_id):
 
     while update_option_loop:
         print(
-            '\n1. Book Id\n'
+            '\nSelect an option. Press ENTER to go to previous menu.\n'
+            '1. Book Id\n'
             '2. Book ISBN\n'
             '3. Book Title\n'
             '5. Number of Copies\n'
             '4. Available Copies\n'
             '5. Price'
         )
-        usr_choice = input('\n-> Select an option to update (1,2,3,4,5): ')
+        usr_choice = input('\n-> Select an option (1,2,3,4,5): ')
 
         try:
             match usr_choice:
                 case '1':
                     id_input = input('\n-> New Book ID: ')
+                    if id_input == '':
+                        print('>> Entered value cannot be empty <<\n') # check if empty
+                        continue
                     if id_input in data['id'].values(): # evaluate if id already exists
                         print('Book with matching ID already exists.\n')
                         continue
@@ -164,22 +169,27 @@ def update_info(data, book_id):
                     update_option_loop = False
                 case '2':
                     isbn_input = str(input('\n-> New ISBN: '))
-                    if not isbn_input.isnumeric(): # input validation
+                    if isbn_input == '':
+                        print('>> Entered value cannot be empty <<\n') # check if empty
+                        continue
+                    if not ( # input validation
+                            isbn_input.isnumeric() and
+                            len(isbn_input) == 13 and
+                            isbn_input[-1] == check_validator(isbn_input)
+                    ):
                         print('>> Entered ISBN number is invalid <<\n')
-                    elif isbn_input in str(data['isbn'].values()):  # evaluate if ISBN already exists
+                        continue
+                    if isbn_input in str(data['isbn'].values()):  # evaluate if ISBN already exists
                         print('Book with matching ISBN already exists.\n')
-                        continue
-                    elif len(isbn_input) != 13:  # evaluate length of given isbn
-                        print('>> Entered ISBN number is invalid <<\n')
-                        continue
-                    elif isbn_input[-1] != check_validator(isbn_input):  # evaluate check digit
-                        print('>> Entered ISBN number is invalid <<\n')
                         continue
 
                     data['isbn'][index] = int(isbn_input)
                     update_option_loop = False
                 case '3':
                     title_input = input('\n-> New Book Title: ')
+                    if title_input == '':
+                        print('>> Entered value cannot be empty <<\n') # check if empty
+                        continue
                     if len(title_input) > 20:
                         print('>> Title should have a maximum of 20 characters <<\n')  # input validation
                         continue
@@ -188,6 +198,9 @@ def update_info(data, book_id):
                     update_option_loop = False
                 case '4':
                     copies_input = input('\n-> New Number of Copies: ')
+                    if copies_input == '':
+                        print('>> Entered value cannot be empty <<\n') # check if empty
+                        continue
                     if not copies_input.isnumeric():
                         print('>> Entered value is invalid <<\n') # input validation
                         continue
@@ -198,6 +211,9 @@ def update_info(data, book_id):
                     update_option_loop = False
                 case '5':
                     available_input = input('\n-> New Available Copies: ')
+                    if available_input == '':
+                        print('>> Entered value cannot be empty <<\n') # check if empty
+                        continue
                     if not available_input.isnumeric():
                         print('>> Entered value is invalid <<\n') # input validation
                         continue
@@ -208,6 +224,9 @@ def update_info(data, book_id):
                     update_option_loop = False
                 case '6':
                     price_input = '' # initialize
+                    if price_input == '':
+                        print('>> Entered value cannot be empty <<\n') # check if empty
+                        continue
                     try:
                         price_input = float(input('\n-> New Book Price (00.00): '))
                     except ValueError:
@@ -216,20 +235,26 @@ def update_info(data, book_id):
 
                     data['price'][index] = float(price_input)
                     update_option_loop = False
+                case '':
+                    display_flag = False
+                    update_option_loop = False
+                    break
                 case _:
                     print('>> Please select an option from 1 to 5 <<')
                     continue
         except Exception as e:
             print(f'An error occurred while accessing dictionary: {e}')
-    print(
-        f'\nData updated successfully:\n'
-        f'\tTitle: {data['title'][index]}\n'
-        f'\tISBN: {data['isbn'][index]}\n'
-        f'\tBook ID: {data['id'][index]}\n'
-        f'\tNumber of Copies: {data['copies'][index]}\n'
-        f'\tAvailable Copies: {data['available'][index]}\n'
-        f'\tPrice: {data['price'][index]}\n'
-    )
+
+    if display_flag:
+        print(
+            f'\nData updated successfully:\n'
+            f'\tTitle: {data['title'][index]}\n'
+            f'\tISBN: {data['isbn'][index]}\n'
+            f'\tBook ID: {data['id'][index]}\n'
+            f'\tNumber of Copies: {data['copies'][index]}\n'
+            f'\tAvailable Copies: {data['available'][index]}\n'
+            f'\tPrice: {data['price'][index]}\n'
+        )
     return
 
 def delete_info(data, book_id):

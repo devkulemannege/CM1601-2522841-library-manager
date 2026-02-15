@@ -30,17 +30,17 @@ try:
     books_df = pd.read_csv("C:/LibraryData/book.csv")
     books = books_df.to_dict()
 except pandas.errors.EmptyDataError:
-    books = {'id': [], 'isbn': [], 'title': [], 'copies': [], 'available': [], 'price': []}
+    books = {'id': {}, 'isbn': {}, 'title': {}, 'copies': {}, 'available': {}, 'price': {}}
 try:
     students_df = pd.read_csv("C:/LibraryData/student.csv")
     students = students_df.to_dict()
 except pandas.errors.EmptyDataError:
-    students = {'id': [], 'firstName': []}
+    students = {'id': {}, 'firstName': {}}
 try:
     transactions_df = pd.read_csv("C:/LibraryData/transactions.csv")
     transactions = transactions_df.to_dict()
 except pandas.errors.EmptyDataError:
-    transactions = {'date': [], 'bookId': [], 'studentId': [], 'type': []}
+    transactions = {'date': {}, 'bookId': {}, 'studentId': {}, 'type':{}}
 
 # starting point of program
 print(f'{br}\nWelcome to the Library Management System.\n')
