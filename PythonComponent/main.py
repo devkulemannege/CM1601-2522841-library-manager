@@ -1,4 +1,5 @@
 # modular imports
+import transactionManager
 import bookManager
 import studentManager
 
@@ -12,7 +13,7 @@ br = '------------------------------------------------------------------'  # lin
 option_loop = True
 
 def create_file(name):
-    """Function to create missing csv files to reduce code redundency"""
+    """Function to create missing csv files to reduce code redundancy"""
     file = open(f'C:/LibraryData/{name}.csv', 'w')
     file.close()
 
@@ -63,6 +64,10 @@ while option_loop:
             bookManager.access_manager(books)
         case '2':
             studentManager.access_manager(students)
+        case '3':
+            transactionManager.issue_book(books, students, transactions)
+        case '4':
+            transactionManager.return_book(transactions)
         case '5':
             option_loop = False # disable menu-loop flag
             exit()
