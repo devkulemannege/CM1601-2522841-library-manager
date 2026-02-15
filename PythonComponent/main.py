@@ -1,5 +1,6 @@
 # modular imports
 import bookManager
+import studentManager
 
 import pandas as pd
 import pandas.errors
@@ -47,6 +48,7 @@ print(f'{br}\nWelcome to the Library Management System.\n')
 
 while option_loop:
     print(
+        'Main Menu\n'
         '1. Manage books\n'
         '2. Add Student\n'
         '3. Issue Book\n'
@@ -59,6 +61,8 @@ while option_loop:
     match usr_choice:
         case '1':
             bookManager.access_manager(books)
+        case '2':
+            studentManager.access_manager(students)
         case '5':
             option_loop = False # disable menu-loop flag
             exit()
