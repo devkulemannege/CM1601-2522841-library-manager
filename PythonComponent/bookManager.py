@@ -43,7 +43,7 @@ def book_search(data, book_id):
 def add_book(data):
     """add new information to last index positions of each dictionary keys
     :param data - "books" dictionary"""
-    last_index = len(data['id'].values()) - 1  # get index location of final data row - 1
+    last_index = len(data['id'].values())  # get index location of final data row
     update_option_loop = True
 
     print('Enter book information. Press ENTER to go to previous menu.')
