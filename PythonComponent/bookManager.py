@@ -1,6 +1,4 @@
 # global variables
-from langchain_core.language_models import FakeStreamingListLLM
-
 br = '---------------------------------'
 
 def check_validator(isbn):
