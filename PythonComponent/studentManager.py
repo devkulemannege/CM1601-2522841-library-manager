@@ -18,12 +18,12 @@ def add_info(data, id_num, name):
 def access_manager(data):
     """menu which controls the flow of student managing component of LMS
     :param data - "students" dictionary """
-    update_option_loop = True # function looping flag
+    option_loop = True # function looping flag
     inner_option_loop = True # flag for inner loop inside while loop
 
     print('Student Manager\n\nPress ENTER to cancel.')
 
-    while update_option_loop:
+    while option_loop:
         id_input = str(input('-> Enter Student ID: '))
         if id_input == '': break # go to main menu
         if not (id_input.isnumeric() == True and len(id_input) == 8): # input validation
@@ -57,14 +57,9 @@ def access_manager(data):
                 add_info(data, id_input, name_input) # add data to dictionary through function
                 # disable flags
                 inner_option_loop = False
-                update_option_loop = False
+                option_loop = False
                 break
             else:
                 break
     print(br) # line break
     return
-
-
-
-
-

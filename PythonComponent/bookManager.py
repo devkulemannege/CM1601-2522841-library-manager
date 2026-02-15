@@ -42,11 +42,11 @@ def add_book(data):
     """add new information to last index positions of each dictionary keys
     :param data - "books" dictionary"""
     last_index = len(data['id'].values())  # get index location of final data row
-    update_option_loop = True
+    option_loop = True
 
     print('Enter book information. Press ENTER to go to previous menu.')
 
-    while update_option_loop:
+    while option_loop:
         id_input = input('Enter book ID: ')
         if id_input in data['id'].values():  # evaluate if id already exists
             print('Book with matching ID already exists.\n')
@@ -104,7 +104,7 @@ def add_book(data):
         if price_input == '':
             return
 
-        update_option_loop = False
+        option_loop = False
         break
     try:
         data['id'][last_index] = id_input
@@ -130,7 +130,7 @@ def update_info(data, book_id):
     """update information of a specified book
     :param data - "books" dictionary
     :param book_id - book ID of required book"""
-    update_option_loop = True # looping flag for this function only
+    option_loop = True # looping flag for this function only
     display_flag = True
     index = 0
 
@@ -140,7 +140,7 @@ def update_info(data, book_id):
             index = index - 1
             break
 
-    while update_option_loop:
+    while option_loop:
         print(
             '\nSelect an option. Press ENTER to go to previous menu.\n'
             '1. Book Id\n'
@@ -164,7 +164,7 @@ def update_info(data, book_id):
                         continue
 
                     data['id'][index] = book_id
-                    update_option_loop = False
+                    option_loop = False
                 case '2':
                     isbn_input = str(input('\n-> New ISBN: '))
                     if isbn_input == '':
@@ -182,7 +182,7 @@ def update_info(data, book_id):
                         continue
 
                     data['isbn'][index] = int(isbn_input)
-                    update_option_loop = False
+                    option_loop = False
                 case '3':
                     title_input = input('\n-> New Book Title: ')
                     if title_input == '':
@@ -193,7 +193,7 @@ def update_info(data, book_id):
                         continue
 
                     data['title'][index] = title_input
-                    update_option_loop = False
+                    option_loop = False
                 case '4':
                     copies_input = input('\n-> New Number of Copies: ')
                     if copies_input == '':
@@ -206,7 +206,7 @@ def update_info(data, book_id):
                         print('>> A maximum value of 2 should be entered <<\n')
 
                     data['copies'][index] = int(copies_input)
-                    update_option_loop = False
+                    option_loop = False
                 case '5':
                     available_input = input('\n-> New Available Copies: ')
                     if available_input == '':
@@ -219,7 +219,7 @@ def update_info(data, book_id):
                         print('>> Available book count cannot be greater than No. of copies <<\n')
 
                     data['available'][index] = int(available_input)
-                    update_option_loop = False
+                    option_loop = False
                 case '6':
                     price_input = '' # initialize
                     if price_input == '':
@@ -232,10 +232,10 @@ def update_info(data, book_id):
                         continue
 
                     data['price'][index] = float(price_input)
-                    update_option_loop = False
+                    option_loop = False
                 case '':
                     display_flag = False
-                    update_option_loop = False
+                    option_loop = False
                     break
                 case _:
                     print('>> Please select an option from 1 to 5 <<')
@@ -259,7 +259,7 @@ def delete_info(data, book_id):
     """delete information of a specified book
     :param data - "books" dictionary
     :param book_id - book ID of required book"""
-    update_option_loop = True  # looping flag for this function only
+    option_loop = True  # looping flag for this function only
     index = 0
 
     for i in data['id'].values(): # find index location (row) of required info across all keys
@@ -268,7 +268,7 @@ def delete_info(data, book_id):
             index = index - 1
             break
 
-    while update_option_loop:
+    while option_loop:
         print(
             '\nAre you sure you want to delete the following?\n'
             f'\tTitle: {data['title'][index]}\n'
