@@ -10,7 +10,6 @@ import os
 # initialization of variables
 file_names = ['book','student','transactions'] # files names of the .csv files
 br = '------------------------------------------------------------------'  # line break for clarity
-option_loop = True
 
 def create_file(name):
     """Function to create missing csv files to reduce code redundancy"""
@@ -47,7 +46,7 @@ except pandas.errors.EmptyDataError:
 # starting point of program
 print(f'{br}\nWelcome to the Library Management System.\n')
 
-while option_loop:
+while True:
     print(
         'Main Menu\n'
         '1. Manage books\n'

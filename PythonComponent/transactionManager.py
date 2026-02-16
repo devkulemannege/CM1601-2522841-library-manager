@@ -8,11 +8,10 @@ def issue_book(book_data, student_data, transact_data):
     :param transact_data: "transactions" dictionary"""
     full_date = day_input = month_input = year_input = inner_val = book_input = student_input = ''
     issue_count = student_issue_count = book_index = last_index = 0
-    option_loop = True
 
     print('Issue Book\n\nPress ENTER to cancel.')
 
-    while option_loop:
+    while True:
         book_input = input('Enter Book ID: ')
         if book_input == '': break  # go to main menu
         if book_input not in book_data['id'].values():  # evaluate if id already exists
@@ -46,8 +45,6 @@ def issue_book(book_data, student_data, transact_data):
         if not year_input.isnumeric(): # input validation
             print('>> Entered value is invalid <<\n')
             continue
-
-        option_loop = False # disable loop flag
         break
 
     full_date = ( # adjust date format, add trailing zero
@@ -64,12 +61,14 @@ def issue_book(book_data, student_data, transact_data):
             transact_data['studentId'][index] == int(student_input) and # find if the student already has a copy of specified book
             transact_data['bookId'][index] == book_input and
             transact_type == 'issue'
-        ): student_issue_count += 1
+        ):
+            student_issue_count += 1
         elif (
             transact_data['studentId'][index] == int(student_input) and
             transact_data['bookId'][index] == book_input and
             transact_type == 'return'
-        ): student_issue_count -= 1
+        ):
+            student_issue_count -= 1
 
     for i in book_data['id'].values(): # find index location (row) of required info across all keys
         book_index += 1
