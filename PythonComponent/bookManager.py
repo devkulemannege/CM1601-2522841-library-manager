@@ -52,7 +52,7 @@ def add_book(data):
             print('Book with matching ID already exists.\n')
             continue
         elif id_input == '':
-            return
+            return data
 
         isbn_input = str(input('Enter ISBN: '))
         if not ( # input validation
@@ -66,14 +66,14 @@ def add_book(data):
             print('Book with matching ISBN already exists.\n')
             continue
         if isbn_input == '':
-            return
+            return data
 
         title_input = input('Enter book title: ')
         if len(title_input) > 20:
             print('>> Title should have a maximum of 20 characters <<\n') # input validation
             continue
         elif title_input == '':
-            return
+            return data
 
         copies_input = input('Enter number of copies: ')
         if not copies_input.isnumeric():
@@ -83,7 +83,7 @@ def add_book(data):
             print('>> A maximum value of 2 should be entered <<\n') # input validation
             continue
         elif copies_input == '':
-            return
+            return data
 
         available_input = input('Enter book available: ')
         if not available_input.isnumeric():
@@ -93,7 +93,7 @@ def add_book(data):
             print('>> Available book count cannot be greater than No. of copies <<\n') # input validation
             continue
         elif available_input == '':
-            return
+            return data
 
         price_input = ''
         try:
@@ -102,7 +102,7 @@ def add_book(data):
             print('>> Entered value is invalid <<\n') # validate if entered value is float
             continue
         if price_input == '':
-            return
+            return data
 
         break
     try:
@@ -124,7 +124,7 @@ def add_book(data):
         f'\tAvailable Copies: {data['available'][last_index]}\n'
         f'\tPrice: {data['price'][last_index]}\n'
     )
-    return
+    return data
 
 def update_info(data, book_id):
     """update information of a specified book
@@ -251,7 +251,7 @@ def update_info(data, book_id):
             f'\tAvailable Copies: {data['available'][index]}\n'
             f'\tPrice: {data['price'][index]}\n'
         )
-    return
+    return data
 
 def access_manager(data):
     """menu which controls the flow of book managing component of LMS
@@ -279,7 +279,7 @@ def access_manager(data):
                 book_search(data, book_id)
                 print(br)
             case '2':
-                add_book(data)
+                data = add_book(data)
                 print(br)
             case '3':
                 book_id = input('-> Enter book ID: ')
@@ -287,11 +287,12 @@ def access_manager(data):
                     print(f'Given Book ID does not exist.\n{br}')
                     continue
 
-                update_info(data, book_id)
+                data = update_info(data, book_id)
+                for key in data.keys():print(data[key].values())
                 print(br)
             case '4':
                 break
             case _:
                 print('>> Please select an option from 1 to 4 <<\n')
-    return
+    return data
 

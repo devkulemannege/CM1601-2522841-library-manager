@@ -8,12 +8,13 @@ def add_info(data, id_num, name):
     :param name - acquired student's first name"""
     try:
         last_index = len(data['id'].values())  # get index location of final data row
-        data['id'][last_index] = id_num
+        data['id'][last_index] = int(id_num)
         data['firstName'][last_index] = name
 
         print('\nData entered successfully.')
     except Exception as e:
         print(f'Error occurred while accessing dictionary: {e} ')
+    return data
 
 def access_manager(data):
     """menu which controls the flow of student managing component of LMS
@@ -54,7 +55,7 @@ def access_manager(data):
                 print('>> Please select "y" or "n" <<\n')
                 continue
             elif usr_option == 'y':
-                add_info(data, id_input, name_input) # add data to dictionary through function
+                data = add_info(data, id_input, name_input) # add data to dictionary through function
                 # disable flags
                 inner_option_loop = False
                 option_loop = False
@@ -62,4 +63,4 @@ def access_manager(data):
             else:
                 break
     print(br) # line break
-    return
+    return data

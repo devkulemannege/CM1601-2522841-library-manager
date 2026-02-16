@@ -53,21 +53,25 @@ while True:
         '2. Add Student\n'
         '3. Issue Book\n'
         '4. Return Book\n'
-        '5. Exit'
+        '5. Export Data as CSV\n'
+        '6. Exit'
     )
     usr_choice = input('\n-> Please select an option (1,2,3,4,5): ')
     print(br) # line break
 
     match usr_choice:
         case '1':
-            bookManager.access_manager(books)
+            books = bookManager.access_manager(books)
         case '2':
-            studentManager.access_manager(students)
+            students = studentManager.access_manager(students)
         case '3':
-            transactionManager.issue_book(books, students, transactions)
+            transactions = transactionManager.issue_book(books, students, transactions)
+            print(f'transactions: {transactions}')
         case '4':
-            transactionManager.return_book(transactions)
+            transactions = transactionManager.return_book(books, students, transactions)
         case '5':
+            ''
+        case '6':
             option_loop = False # disable menu-loop flag
             exit()
         case _ :
