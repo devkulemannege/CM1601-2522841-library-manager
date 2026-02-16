@@ -70,16 +70,19 @@ while True:
         case '4':
             transactions = transactionManager.return_book(books, students, transactions)
         case '5':
+            # initialization of temporary dictionary
             plot_dict = {
                 'date': [],
                 'type': [],
             }
-            plot_df = pd.DataFrame(transactions, columns=['date','type']) # convert dictionary to dataframe
-            plot_df = plot_df[plot_df.type != 2]
+
+            plot_df = pd.DataFrame(transactions, columns=['date','type']) # get specific columns for dataframe
+            plot_df = plot_df[plot_df.type != 2] # remove rows with 2 (return) type
 
             full_dict = plot_df.to_dict()
             trim_dict = plot_df.drop_duplicates(subset=['date']).to_dict()
 
+            # find no. of issue's per specified date
             for date in trim_dict['date'].values():
                 issue_count = 0
                 for sub_date in full_dict['date'].values():
@@ -88,9 +91,9 @@ while True:
                 plot_dict['date'].append(date)
                 plot_dict['type'].append(issue_count)
 
-            plot_df = pd.DataFrame(plot_dict, columns=['date','type'])
+            plot_df = pd.DataFrame(plot_dict, columns=['date','type']) # create dataframe from newly made dictionary
             plot_df.plot(x='date', y='type', kind='line')
-            plt.show()
+            plt.show() # output plot
 
             print('Trend Graph has been Generated.')
             print(br)  # line break
