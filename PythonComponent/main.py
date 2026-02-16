@@ -3,6 +3,7 @@ import transactionManager
 import bookManager
 import studentManager
 
+import matplotlib.pyplot as plt
 import pandas as pd
 import pandas.errors
 import os
@@ -53,10 +54,10 @@ while True:
         '2. Add Student\n'
         '3. Issue Book\n'
         '4. Return Book\n'
-        '5. Export Data as CSV\n'
-        '6. Exit'
+        '5. Display Trend Graph\n'
+        '6. Export to CSV & Exit'
     )
-    usr_choice = input('\n-> Please select an option (1,2,3,4,5): ')
+    usr_choice = input('\n-> Please select an option (1,2,3,4,5,6,7): ')
     print(br) # line break
 
     match usr_choice:
@@ -69,24 +70,46 @@ while True:
         case '4':
             transactions = transactionManager.return_book(books, students, transactions)
         case '5':
+            plot_dict = {
+                'date': [],
+                'type': [],
+            }
+            plot_df = pd.DataFrame(transactions, columns=['date','type']) # convert dictionary to dataframe
+            plot_df = plot_df[plot_df.type != 2]
+
+            full_dict = plot_df.to_dict()
+            trim_dict = plot_df.drop_duplicates(subset=['date']).to_dict()
+
+            for date in trim_dict['date'].values():
+                issue_count = 0
+                for sub_date in full_dict['date'].values():
+                    if sub_date == date: issue_count += 1
+
+                plot_dict['date'].append(date)
+                plot_dict['type'].append(issue_count)
+
+            plot_df = pd.DataFrame(plot_dict, columns=['date','type'])
+            plot_df.plot(x='date', y='type', kind='line')
+            plt.show()
+
+            print('Trend Graph has been Generated.')
+            print(br)  # line break
+        case '6':
             for name in file_names:
                 os.remove(f'C:/LibraryData/{name}.csv')
 
-            # export dictionaries to csv files
+            # export dictionaries to csv files and exit program
             try:
-                books_df = pandas.DataFrame(books)
+                books_df = pd.DataFrame(books)
                 books_df.to_csv('C:/LibraryData/book.csv', index=False)
                 students_df = pandas.DataFrame(students)
                 students_df.to_csv('C:/LibraryData/student.csv', index=False)
                 transactions_df = pandas.DataFrame(transactions)
                 transactions_df.to_csv('C:/LibraryData/transactions.csv', index=False)
 
-                print('CSV files have been created at C:/LibraryData/book.csv.')
+                print('CSV files have been exported to C:/LibraryData.')
             except Exception as e:
                 print(f'An error occurred while exporting CSV files: {e}')
-            print(br) # line break
-        case '6':
-            option_loop = False # disable menu-loop flag
             exit()
         case _ :
             print('>> Please select an option from 1 to 4 <<\n')
