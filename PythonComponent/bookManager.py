@@ -288,7 +288,6 @@ def access_manager(data):
                     continue
 
                 data = update_info(data, book_id)
-                for key in data.keys():print(data[key].values())
                 print(br)
             case '4':
                 break

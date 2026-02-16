@@ -66,11 +66,25 @@ while True:
             students = studentManager.access_manager(students)
         case '3':
             transactions = transactionManager.issue_book(books, students, transactions)
-            print(f'transactions: {transactions}')
         case '4':
             transactions = transactionManager.return_book(books, students, transactions)
         case '5':
-            ''
+            for name in file_names:
+                os.remove(f'C:/LibraryData/{name}.csv')
+
+            # export dictionaries to csv files
+            try:
+                books_df = pandas.DataFrame(books)
+                books_df.to_csv('C:/LibraryData/book.csv', index=False)
+                students_df = pandas.DataFrame(students)
+                students_df.to_csv('C:/LibraryData/student.csv', index=False)
+                transactions_df = pandas.DataFrame(transactions)
+                transactions_df.to_csv('C:/LibraryData/transactions.csv', index=False)
+
+                print('CSV files have been created at C:/LibraryData/book.csv.')
+            except Exception as e:
+                print(f'An error occurred while exporting CSV files: {e}')
+            print(br) # line break
         case '6':
             option_loop = False # disable menu-loop flag
             exit()
