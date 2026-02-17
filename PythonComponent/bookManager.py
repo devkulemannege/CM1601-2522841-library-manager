@@ -58,6 +58,7 @@ def add_book(data):
         if not ( # input validation
                 isbn_input.isnumeric() and
                 len(isbn_input) == 13 and
+                isbn_input[0:3] == 978 or isbn_input[0:3] == 979 and
                 isbn_input[-1] == check_validator(isbn_input)
         ):
             print('>> Entered ISBN number is invalid <<\n')
@@ -172,6 +173,7 @@ def update_info(data, book_id):
                     if not ( # input validation
                             isbn_input.isnumeric() and
                             len(isbn_input) == 13 and
+                            isbn_input[0:3] == 978 or isbn_input[0:3] == 979 and
                             isbn_input[-1] == check_validator(isbn_input)
                     ):
                         print('>> Entered ISBN number is invalid <<\n')

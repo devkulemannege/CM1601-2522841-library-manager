@@ -1,3 +1,8 @@
+"""
+Author: R.D.kulemannege
+Description: Library Management System with CSV exporting
+"""
+
 # modular imports
 import transactionManager
 import bookManager
@@ -6,6 +11,7 @@ import studentManager
 import matplotlib.pyplot as plt
 import pandas as pd
 import pandas.errors
+import datetime
 import os
 
 # initialization of variables
@@ -93,9 +99,21 @@ while True:
 
             plot_df = pd.DataFrame(plot_dict, columns=['date','type']) # create dataframe from newly made dictionary
             plot_df.plot(x='date', y='type', kind='line')
-            plt.show() # output plot
 
-            print('Trend Graph has been Generated.')
+            # export graph with filename with date & time
+            dateInfo = datetime.datetime.now()
+            year = dateInfo.strftime('%Y')
+            month = dateInfo.strftime('%m')
+            date = dateInfo.strftime('%d')
+            hour = dateInfo.strftime('%H')
+            minute = dateInfo.strftime('%M')
+            second = dateInfo.strftime('%S')
+
+            fileName = f'{year}{month}{date}-{hour}{minute}{second}.jpg'
+            plt.savefig(f'C:/LibraryData/{fileName}') # save graph in directory
+            plt.show()  # display graph
+
+            print(f'Trend Graph has been Generated and Saved as {fileName} at C:/LibraryData.')
             print(br)  # line break
         case '6':
             for name in file_names:
