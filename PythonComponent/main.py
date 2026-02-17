@@ -23,6 +23,13 @@ def create_file(name):
     file = open(f'C:/LibraryData/{name}.csv', 'w')
     file.close()
 
+def strip_values(keys, df):
+    """Function to strip values from a dataframe
+    :param keys: list of keys
+    :param df: pandas dataframe"""
+    for key in keys: df[key] = df[key].str.strip()
+    return df
+
 try:
     if not os.path.exists("C:/LibraryData"):
         os.mkdir("C:/LibraryData") # create directory to store csv data if it doesn't exist
@@ -36,16 +43,21 @@ except Exception as e:
 # get csv data as dictionaries. if files empty, use empty dictionaries
 try:
     books_df = pd.read_csv("C:/LibraryData/book.csv")
+    books_df = strip_values(['id', 'title'], books_df) # strip values in dictionary
     books = books_df.to_dict()
 except pandas.errors.EmptyDataError:
     books = {'id': {}, 'isbn': {}, 'title': {}, 'copies': {}, 'available': {}, 'price': {}}
+
 try:
     students_df = pd.read_csv("C:/LibraryData/student.csv")
+    students_df = strip_values(['firstName'], students_df) # strip values in dictionary
     students = students_df.to_dict()
 except pandas.errors.EmptyDataError:
     students = {'id': {}, 'firstName': {}}
+
 try:
     transactions_df = pd.read_csv("C:/LibraryData/transactions.csv")
+    transactions_df = strip_values(['date'], transactions_df)
     transactions = transactions_df.to_dict()
 except pandas.errors.EmptyDataError:
     transactions = {'date': {}, 'bookId': {}, 'studentId': {}, 'type':{}}
@@ -115,6 +127,7 @@ while True:
 
             print(f'Trend Graph has been Generated and Saved as {fileName} at C:/LibraryData.')
             print(br)  # line break
+
         case '6':
             for name in file_names:
                 os.remove(f'C:/LibraryData/{name}.csv')
