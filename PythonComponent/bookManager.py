@@ -1,31 +1,31 @@
 # global variables
 br = '---------------------------------'
 
-def check_validator(isbn):
+def checkValidator(isbn):
     """checks if given isbn is valid through check digit (last number)
     :param isbn - isbn number"""
-    check_digit = 0
+    checkDigit = 0
 
     for pos, val in enumerate(isbn[:-1]):
         if pos % 2 == 1:
-            check_digit += int(val) * 3
+            checkDigit += int(val) * 3
         else:
-            check_digit += int(val) * 1
+            checkDigit += int(val) * 1
 
-    check_digit = check_digit % 10
-    check_digit = 10 - check_digit
+    checkDigit = checkDigit % 10
+    checkDigit = 10 - checkDigit
 
-    return str(check_digit)
+    return str(checkDigit)
 
-def book_search(data, book_id):
+def bookSearch(data, bookId):
     """access dictionary contents to view data on a specific book
     :param data - "books" dictionary
-    :param book_id - book ID of required book"""
+    :param bookId - book ID of required book"""
     index = 0
 
     for i in data['id'].values():
         index += 1 # find index location (row) of required info accross all keys
-        if i == book_id:
+        if i == bookId:
             print(
                 '\nBook details:\n'
                 f'\tTitle: {data['title'][index-1]}\n'
@@ -38,105 +38,105 @@ def book_search(data, book_id):
             break
     return
 
-def add_book(data):
+def addBook(data):
     """add new information to last index positions of each dictionary keys
     :param data - "books" dictionary"""
-    last_index = len(data['id'].values())  # get index location of final data row
-    option_loop = True
+    lastIndex = len(data['id'].values())  # get index location of final data row
+    optionLoop = True
 
     print('Enter book information. Press ENTER to go to previous menu.')
 
     while True:
-        id_input = input('Enter book ID: ')
-        if id_input in data['id'].values():  # evaluate if id already exists
+        idInput = input('Enter book ID: ')
+        if idInput in data['id'].values():  # evaluate if id already exists
             print('Book with matching ID already exists.\n')
             continue
-        elif id_input == '':
+        elif idInput == '':
             return data
 
-        isbn_input = str(input('Enter ISBN: '))
+        isbnInput = str(input('Enter ISBN: '))
         if not ( # input validation
-                isbn_input.isnumeric() and
-                len(isbn_input) == 13 and
-                isbn_input[0:3] == 978 or isbn_input[0:3] == 979 and
-                isbn_input[-1] == check_validator(isbn_input)
+                isbnInput.isnumeric() and
+                len(isbnInput) == 13 and
+                isbnInput[0:3] == 978 or isbnInput[0:3] == 979 and
+                isbnInput[-1] == checkValidator(isbnInput)
         ):
             print('>> Entered ISBN number is invalid <<\n')
             continue
-        if isbn_input in str(data['isbn'].values()):  # evaluate if ISBN already exists
+        if isbnInput in str(data['isbn'].values()):  # evaluate if ISBN already exists
             print('Book with matching ISBN already exists.\n')
             continue
-        if isbn_input == '':
+        if isbnInput == '':
             return data
 
-        title_input = input('Enter book title: ')
-        if len(title_input) > 20:
+        titleInput = input('Enter book title: ')
+        if len(titleInput) > 20:
             print('>> Title should have a maximum of 20 characters <<\n') # input validation
             continue
-        elif title_input == '':
+        elif titleInput == '':
             return data
 
-        copies_input = input('Enter number of copies: ')
-        if not copies_input.isnumeric():
+        copiesInput = input('Enter number of copies: ')
+        if not copiesInput.isnumeric():
             print('>> Entered value is invalid <<\n') # input validation
             continue
-        elif int(copies_input) > 2:
+        elif int(copiesInput) > 2:
             print('>> A maximum value of 2 should be entered <<\n') # input validation
             continue
-        elif copies_input == '':
+        elif copiesInput == '':
             return data
 
-        available_input = input('Enter book available: ')
-        if not available_input.isnumeric():
+        availableInput = input('Enter book available: ')
+        if not availableInput.isnumeric():
             print('>> Entered value is invalid <<\n') # input validation
             continue
-        elif int(available_input) > int(copies_input):
+        elif int(availableInput) > int(copiesInput):
             print('>> Available book count cannot be greater than No. of copies <<\n') # input validation
             continue
-        elif available_input == '':
+        elif availableInput == '':
             return data
 
-        price_input = ''
+        priceInput = ''
         try:
-            price_input = float(input('Enter book price (00.00): '))
+            priceInput = float(input('Enter book price (00.00): '))
         except ValueError:
             print('>> Entered value is invalid <<\n') # validate if entered value is float
             continue
-        if price_input == '':
+        if priceInput == '':
             return data
 
         break
     try:
-        data['id'][last_index] = id_input
-        data['isbn'][last_index] = int(isbn_input)
-        data['title'][last_index] = title_input
-        data['copies'][last_index] = int(copies_input)
-        data['available'][last_index] = int(available_input)
-        data['price'][last_index] = float(price_input)
+        data['id'][lastIndex] = idInput
+        data['isbn'][lastIndex] = int(isbnInput)
+        data['title'][lastIndex] = titleInput
+        data['copies'][lastIndex] = int(copiesInput)
+        data['available'][lastIndex] = int(availableInput)
+        data['price'][lastIndex] = float(priceInput)
     except Exception as e:
         print(f'An error occurred while accessing dictionary: {e}')
 
     print(
         f'\nData Entered successfully:\n'
-        f'\tTitle: {data['title'][last_index]}\n'
-        f'\tISBN: {data['isbn'][last_index]}\n'
-        f'\tBook ID: {data['id'][last_index]}\n'
-        f'\tNumber of Copies: {data['copies'][last_index]}\n'
-        f'\tAvailable Copies: {data['available'][last_index]}\n'
-        f'\tPrice: {data['price'][last_index]}\n'
+        f'\tTitle: {data['title'][lastIndex]}\n'
+        f'\tISBN: {data['isbn'][lastIndex]}\n'
+        f'\tBook ID: {data['id'][lastIndex]}\n'
+        f'\tNumber of Copies: {data['copies'][lastIndex]}\n'
+        f'\tAvailable Copies: {data['available'][lastIndex]}\n'
+        f'\tPrice: {data['price'][lastIndex]}\n'
     )
     return data
 
-def update_info(data, book_id):
+def updateInfo(data, bookId):
     """update information of a specified book
     :param data - "books" dictionary
-    :param book_id - book ID of required book"""
-    display_flag = True
+    :param bookId - book ID of required book"""
+    displayFlag = True
     index = 0
 
     for i in data['id'].values(): # find index location (row) of required info across all keys
         index += 1
-        if i == book_id:
+        if i == bookId:
             index = index - 1
             break
 
@@ -150,10 +150,10 @@ def update_info(data, book_id):
             '4. Available Copies\n'
             '5. Price'
         )
-        usr_choice = input('\n-> Select an option (1,2,3,4,5): ')
+        usrChoice = input('\n-> Select an option (1,2,3,4,5): ')
 
         try:
-            match usr_choice:
+            match usrChoice:
                 case '1':
                     id_input = input('\n-> New Book ID: ')
                     if id_input == '':
@@ -163,7 +163,7 @@ def update_info(data, book_id):
                         print('Book with matching ID already exists.\n')
                         continue
 
-                    data['id'][index] = book_id
+                    data['id'][index] = bookId
                     break
                 case '2':
                     isbn_input = str(input('\n-> New ISBN: '))
@@ -174,7 +174,7 @@ def update_info(data, book_id):
                             isbn_input.isnumeric() and
                             len(isbn_input) == 13 and
                             isbn_input[0:3] == 978 or isbn_input[0:3] == 979 and
-                            isbn_input[-1] == check_validator(isbn_input)
+                            isbn_input[-1] == checkValidator(isbn_input)
                     ):
                         print('>> Entered ISBN number is invalid <<\n')
                         continue
@@ -243,7 +243,7 @@ def update_info(data, book_id):
         except Exception as e:
             print(f'An error occurred while accessing dictionary: {e}')
 
-    if display_flag:
+    if displayFlag:
         print(
             f'\nData updated successfully:\n'
             f'\tTitle: {data['title'][index]}\n'
@@ -255,7 +255,7 @@ def update_info(data, book_id):
         )
     return data
 
-def access_manager(data):
+def accessManager(data):
     """menu which controls the flow of book managing component of LMS
     :param data - "books" dictionary """
 
@@ -268,28 +268,28 @@ def access_manager(data):
             '4. Go to Main Menu.'
         )
 
-        usr_choice = input('\n-> Please select an option (1,2,3,4): ')
+        usrChoice = input('\n-> Please select an option (1,2,3,4): ')
         print(br) # line break
 
-        match usr_choice:
+        match usrChoice:
             case '1':
-                book_id = input('-> Enter book ID: ')
-                if book_id not in data['id'].values(): # evaluate for the existence of book ID
+                bookId = input('-> Enter book ID: ')
+                if bookId not in data['id'].values(): # evaluate for the existence of book ID
                     print(f'Given Book ID does not exist.\n{br}')
                     continue
 
-                book_search(data, book_id)
+                bookSearch(data, bookId)
                 print(br)
             case '2':
-                data = add_book(data)
+                data = addBook(data)
                 print(br)
             case '3':
-                book_id = input('-> Enter book ID: ')
-                if book_id not in data['id'].values():  # evaluate for the existence of book ID
+                bookId = input('-> Enter book ID: ')
+                if bookId not in data['id'].values():  # evaluate for the existence of book ID
                     print(f'Given Book ID does not exist.\n{br}')
                     continue
 
-                data = update_info(data, book_id)
+                data = updateInfo(data, bookId)
                 print(br)
             case '4':
                 break

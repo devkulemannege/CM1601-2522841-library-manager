@@ -1,94 +1,94 @@
 # global variables
 br = '---------------------------------'
 
-def issue_logic(book_data, transact_data, book_input, student_input, full_date):
-    """docstring for issue_logic. Control how issuing is handled
-    :param book_input: Book ID
-    :param student_input: student ID
-    :param full_date: combined date
-    :param book_data: "books" dictionary
-    :param transact_data: "transactions" dictionary"""
-    issue_count = student_issue_count = book_index = last_index = 0
+def issueLogic(bookData, transactData, bookInput, studentInput, fullDate):
+    """docstring for issueLogic. Control how issuing is handled
+    :param bookInput: Book ID
+    :param studentInput: student ID
+    :param fullDate: combined date
+    :param bookData: "books" dictionary
+    :param transactData: "transactions" dictionary"""
+    issueCount = studentIssueCount = bookIndex = lastIndex = 0
 
-    for index, transact_type in enumerate(transact_data['type'].values()): # find no. of times a book has been issued
-        if transact_data['bookId'][index] == book_input and transact_type == 1:
-            issue_count += 1
-        elif transact_data['bookId'][index] == book_input and transact_type == 2:
-            issue_count -= 1
-            if issue_count < 0: issue_count = 0  # reset issue counting to 0 if it goes to -1
+    for index, transactType in enumerate(transactData['type'].values()): # find no. of times a book has been issued
+        if transactData['bookId'][index] == bookInput and transactType == 1:
+            issueCount += 1
+        elif transactData['bookId'][index] == bookInput and transactType == 2:
+            issueCount -= 1
+            if issueCount < 0: issueCount = 0  # reset issue counting to 0 if it goes to -1
         if (
-            transact_data['studentId'][index] == int(student_input) and # find if the student already has a copy of specified book
-            transact_data['bookId'][index] == book_input and
-            transact_type == 1
+            transactData['studentId'][index] == int(studentInput) and # find if the student already has a copy of specified book
+            transactData['bookId'][index] == bookInput and
+            transactType == 1
         ):
-            student_issue_count += 1
+            studentIssueCount += 1
         elif (
-            transact_data['studentId'][index] == int(student_input) and
-            transact_data['bookId'][index] == book_input and
-            transact_type == 2
+            transactData['studentId'][index] == int(studentInput) and
+            transactData['bookId'][index] == bookInput and
+            transactType == 2
         ):
-            student_issue_count -= 1
-            if student_issue_count < 0: student_issue_count = 0  # reset student issue counting to 0 if it goes to -1
+            studentIssueCount -= 1
+            if studentIssueCount < 0: studentIssueCount = 0  # reset student issue counting to 0 if it goes to -1
 
-    for i in book_data['id'].values(): # find index location (row) of required info across all keys
-        book_index += 1
-        if i == book_input:
-            book_index = book_index - 1
+    for i in bookData['id'].values(): # find index location (row) of required info across all keys
+        bookIndex += 1
+        if i == bookInput:
+            bookIndex = bookIndex - 1
             break
 
-    if issue_count >= book_data['available'][book_index]:
+    if issueCount >= bookData['available'][bookIndex]:
         print('\nNo copies are available to issue.')
-    elif issue_count < book_data['available'][book_index]:
-        if student_issue_count >= 1:
+    elif issueCount < bookData['available'][bookIndex]:
+        if studentIssueCount >= 1:
             print('\nA copy of specified book has already been issued to the student.')
         else:
-            last_index = len(transact_data['date'].values())  # get index location of final data row
+            lastIndex = len(transactData['date'].values())  # get index location of final data row
 
-            transact_data['date'][last_index] = full_date
-            transact_data['bookId'][last_index] = book_input
-            transact_data['studentId'][last_index] = int(student_input)
-            transact_data['type'][last_index] = 1
+            transactData['date'][lastIndex] = fullDate
+            transactData['bookId'][lastIndex] = bookInput
+            transactData['studentId'][lastIndex] = int(studentInput)
+            transactData['type'][lastIndex] = 1
             print('\nTransaction Recorded.')
 
-    return transact_data
+    return transactData
 
-def return_logic(transact_data, book_input, student_input, full_date):
-    """docstring for issue_logic. Control how issuing is handled
-    :param book_input: Book ID
-    :param student_input: student ID
-    :param full_date: combined date
-    :param book_data: "books" dictionary
-    :param transact_data: "transactions" dictionary"""
-    return_count = 0
+def returnLogic(transactData, bookInput, studentInput, fullDate):
+    """docstring for issueLogic. Control how issuing is handled
+    :param bookInput: Book ID
+    :param studentInput: student ID
+    :param fullDate: combined date
+    :param bookData: "books" dictionary
+    :param transactData: "transactions" dictionary"""
+    returnCount = 0
 
-    for index, transact_type in enumerate(transact_data['type'].values()):
+    for index, transactType in enumerate(transactData['type'].values()):
         if (
-            transact_data['studentId'][index] == int(student_input) and
-            transact_data['bookId'][index] == book_input and
-            transact_type == 1
+            transactData['studentId'][index] == int(studentInput) and
+            transactData['bookId'][index] == bookInput and
+            transactType == 1
         ):
-            return_count-=1
-            if return_count < 0: return_count = 0  # reset return counting to 0 if it goes to -1
+            returnCount-=1
+            if returnCount < 0: returnCount = 0  # reset return counting to 0 if it goes to -1
         elif (
-            transact_data['studentId'][index] == int(student_input) and
-            transact_data['bookId'][index] == book_input and
-            transact_type == 2
+            transactData['studentId'][index] == int(studentInput) and
+            transactData['bookId'][index] == bookInput and
+            transactType == 2
         ):
-            return_count+=1
+            returnCount+=1
 
-    if return_count == 0:
-        last_index = len(transact_data['date'].values())  # get index location of final data row
+    if returnCount == 0:
+        lastIndex = len(transactData['date'].values())  # get index location of final data row
 
-        transact_data['date'][last_index] = full_date
-        transact_data['bookId'][last_index] = book_input
-        transact_data['studentId'][last_index] = int(student_input)
-        transact_data['type'][last_index] = 2
+        transactData['date'][lastIndex] = fullDate
+        transactData['bookId'][lastIndex] = bookInput
+        transactData['studentId'][lastIndex] = int(studentInput)
+        transactData['type'][lastIndex] = 2
         print('\nTransaction Recorded.')
     else:
         print('Specified book has already been returned.')
 
     print(br) # line break
-    return transact_data
+    return transactData
 
 def issue_book(book_data, student_data, transact_data):
     """docstring for issue_book
@@ -152,7 +152,7 @@ def issue_book(book_data, student_data, transact_data):
     )
 
     try:
-        transact_data = issue_logic(
+        transact_data = issueLogic(
             book_data,
             transact_data,
             book_input,
@@ -226,7 +226,7 @@ def return_book(book_data, student_data, transact_data):
     )
 
     try:
-        transact_data = return_logic(
+        transact_data = returnLogic(
             transact_data,
             book_input,
             student_input,
