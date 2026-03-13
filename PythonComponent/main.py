@@ -75,7 +75,7 @@ while True:
         '5. Display Trend Graph\n'
         '6. Export to CSV & Exit'
     )
-    usrChoice = input('\n-> Please select an option (1,2,3,4,5,6,7): ')
+    usrChoice = input('\n-> Please select an option (1,2,3,4,5,6): ')
     print(br) # line break
 
     match usrChoice:
@@ -84,9 +84,9 @@ while True:
         case '2':
             students = studentManager.accessManager(students)
         case '3':
-            transactions = transactionManager.issueBook(books, students, transactions)
+            transactions = transactionManager.issue_book(books, students, transactions)
         case '4':
-            transactions = transactionManager.returnBook(books, students, transactions)
+            transactions = transactionManager.return_book(books, students, transactions)
         case '5':
             # initialization of temporary dictionary
             plotDict = {
@@ -146,4 +146,4 @@ while True:
                 print(f'An error occurred while exporting CSV files: {e}')
             exit()
         case _ :
-            print('>> Please select an option from 1 to 4 <<\n')
+            print('>> Please select an option from 1 to 6 <<\n')

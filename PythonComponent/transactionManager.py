@@ -1,4 +1,7 @@
+import datetime
+
 # global variables
+current = datetime.datetime.now()
 br = '---------------------------------'
 
 def issueLogic(bookData, transactData, bookInput, studentInput, fullDate):
@@ -61,7 +64,7 @@ def returnLogic(transactData, bookInput, studentInput, fullDate):
     :param transactData: "transactions" dictionary"""
     returnCount = 0
 
-    for index, transactType in enumerate(transactData['type'].values()):
+    for index, transactType in enumerate(transactData['type'].values()): # find if book has been issued to student 
         if (
             transactData['studentId'][index] == int(studentInput) and
             transactData['bookId'][index] == bookInput and
@@ -70,7 +73,7 @@ def returnLogic(transactData, bookInput, studentInput, fullDate):
             returnCount-=1
             if returnCount < 0: returnCount = 0  # reset return counting to 0 if it goes to -1
         elif (
-            transactData['studentId'][index] == int(studentInput) and
+            transactData['studentId'][index] == int(studentInput) and # find if book has been returned by student
             transactData['bookId'][index] == bookInput and
             transactType == 2
         ):
@@ -136,11 +139,11 @@ def issue_book(book_data, student_data, transact_data):
             print('>> Entered value is invalid <<\n')
             continue
 
-        year_input = str(input('\tEnter year: '))
+        year_input = str(input('\tEnter year (minimum: 2000): '))
         if year_input == '':
             print(br)
             return transact_data # go to main menu
-        if not year_input.isnumeric(): # input validation
+        if not (year_input.isnumeric() and 2000 <= int(year_input) <= int(current.strftime('%Y'))): # input validation
             print('>> Entered value is invalid <<\n')
             continue
         break
@@ -214,7 +217,7 @@ def return_book(book_data, student_data, transact_data):
         if year_input == '':
             print(br)
             return transact_data # go to main menu
-        if not year_input.isnumeric(): # input validation
+        if not (year_input.isnumeric() and 2000 <= int(year_input) <= int(current.strftime('%Y'))): # input validation
             print('>> Entered value is invalid <<\n')
             continue
         break

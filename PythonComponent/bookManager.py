@@ -86,7 +86,7 @@ def addBook(data):
         elif copiesInput == '':
             return data
 
-        availableInput = input('Enter book available: ')
+        availableInput = input('Enter books available: ')
         if not availableInput.isnumeric():
             print('>> Entered value is invalid <<\n') # input validation
             continue
@@ -146,9 +146,9 @@ def updateInfo(data, bookId):
             '1. Book Id\n'
             '2. Book ISBN\n'
             '3. Book Title\n'
-            '5. Number of Copies\n'
-            '4. Available Copies\n'
-            '5. Price'
+            '4. Number of Copies\n'
+            '5. Available Copies\n'
+            '6. Price'
         )
         usrChoice = input('\n-> Select an option (1,2,3,4,5): ')
 
