@@ -1,7 +1,6 @@
-/* Controls the elements in the scene */
-
 package org.example.javacomponent;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -31,13 +30,15 @@ public class StartingStageController {
     }
 
     void showNoFileError() {
+        /* reusable method to show error box */
         Alert alert = new Alert(Alert.AlertType.ERROR); // show an error box if files not found
         alert.setContentText("CSV files not found in directory.");
         alert.setHeaderText(null);
         alert.show();
     }
 
-    public void selectDirButtonClick() {
+    @FXML
+    protected void selectDirButtonClick(ActionEvent actionEvent) {
         /* retrieve custom csv directoryObj and store in class variable */
         File tempDirHolder;
 
@@ -47,8 +48,10 @@ public class StartingStageController {
         pathDisplay.setText(directory);
         customDirGiven = true;
     }
-    
-    public void startButtonClick(){
+
+    @FXML
+    protected void startButtonClick(ActionEvent actionEvent) throws Exception{
+        /* check is all csv files exists before proceeding. Or else show error */
         if (!(customDirGiven)) {setDirectory("C:\\LibraryData");}
 
         File accessDirectory = new File(this.directory);
@@ -66,7 +69,8 @@ public class StartingStageController {
         }
 
         if (bookExists && studentExists && transactionExists){
-            System.out.println("continue with program");
+            SceneInitializer startScene = new SceneInitializer();
+            startScene.progressScene(actionEvent); // start next scene
         } else {
             showNoFileError();
         }
