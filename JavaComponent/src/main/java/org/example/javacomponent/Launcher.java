@@ -1,9 +1,10 @@
+/* Control the launch of the scene */
 package org.example.javacomponent;
 
 import javafx.application.Application;
 
 public class Launcher {
     public static void main(String[] args) {
-        Application.launch(HelloApplication.class, args);
+        Application.launch(SceneInitializer.class, args);
     }
 }
