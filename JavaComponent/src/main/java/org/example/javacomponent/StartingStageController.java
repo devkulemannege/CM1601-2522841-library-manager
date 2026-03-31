@@ -3,6 +3,7 @@
 package org.example.javacomponent;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.DirectoryChooser;
@@ -11,8 +12,8 @@ import java.io.File;
 
 public class StartingStageController {
     private String directory;
-    static boolean customDirGiven = false;
-    static boolean bookExists = false, studentExists = false, transactionExists= false; // initialize file exist flags
+    boolean customDirGiven = false;
+    boolean bookExists = false, studentExists = false, transactionExists= false; // initialize file exist flags
 
     @FXML
     private Button startButton;
@@ -22,6 +23,19 @@ public class StartingStageController {
     private Label pathDisplay;
     @FXML
     private Label noFileError;
+
+    void setDirectory(String directory) {
+        /* class-exclusive method. Does not follow encapsulation */
+        this.directory = directory;
+        pathDisplay.setText(this.directory); // update selected directory ui
+    }
+
+    void showNoFileError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR); // show an error box if files not found
+        alert.setContentText("CSV files not found in directory.");
+        alert.setHeaderText(null);
+        alert.show();
+    }
 
     public void selectDirButtonClick() {
         /* retrieve custom csv directoryObj and store in class variable */
@@ -35,17 +49,26 @@ public class StartingStageController {
     }
     
     public void startButtonClick(){
-        if (!(customDirGiven)) {this.directory = "C:\\LibraryData";}
+        if (!(customDirGiven)) {setDirectory("C:\\LibraryData");}
 
-        File accessDirectory = new File(directory);
+        File accessDirectory = new File(this.directory);
         File[] files = accessDirectory.listFiles(); // see all files which exists inside the directory
 
+        // confirm csv file's existence by changing flag
         if (files != null){
             for (File file : files){
-                System.out.println(file);
+                if (file.toString().equals(String.format("%s\\book.csv", this.directory))) {bookExists = true;}
+                if (file.toString().equals(String.format("%s\\student.csv", this.directory))) {studentExists = true;}
+                if (file.toString().equals(String.format("%s\\transactions.csv", this.directory))) {transactionExists = true;}
             }
         } else {
-            noFileError.setText("CSV files not found!");
+            showNoFileError();
+        }
+
+        if (bookExists && studentExists && transactionExists){
+            System.out.println("continue with program");
+        } else {
+            showNoFileError();
         }
     }
 }
