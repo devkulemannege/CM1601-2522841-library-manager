@@ -9,7 +9,7 @@ import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 
-public class StartingStageController {
+public class StartingSceneController {
     private String directory;
     boolean customDirGiven = false;
     boolean bookExists = false, studentExists = false, transactionExists= false; // initialize file exist flags
@@ -70,7 +70,7 @@ public class StartingStageController {
 
         if (bookExists && studentExists && transactionExists){
             SceneInitializer startScene = new SceneInitializer();
-            startScene.progressScene(actionEvent); // start next scene
+            startScene.progressScene(actionEvent, this.directory); // start next scene and send directory info
         } else {
             showNoFileError();
         }

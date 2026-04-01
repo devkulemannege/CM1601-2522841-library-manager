@@ -1,10 +1,14 @@
 package org.example.javacomponent.coreLogic;
 
 public class DataExtractor {
-    private String file_path;
+    private String directory;
 
-    public DataExtractor(String file_path) {
-        /* Constructor method to initialize class */
-        this.file_path = file_path;
+    public DataExtractor(String directory){
+        this.directory = directory;
     }
+
+    public void print(){
+        System.out.println(this.directory);
+    }
+
 }

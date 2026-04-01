@@ -10,6 +10,7 @@ module org.example.javacomponent {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires opencsv;
 
     opens org.example.javacomponent to javafx.fxml;
     exports org.example.javacomponent;

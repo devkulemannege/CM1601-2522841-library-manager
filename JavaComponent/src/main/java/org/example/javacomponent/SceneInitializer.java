@@ -24,16 +24,22 @@ public class SceneInitializer extends Application {
         PrimaryStage.show();
     }
 
-    public void progressScene(ActionEvent actionEvent) throws Exception{
+    public void progressScene(ActionEvent actionEvent, String directory) throws Exception{
         /* create new stage for the progress when analyzing csv files */
+        FXMLLoader sceneLoader = new FXMLLoader(getClass().getResource("csvAnalyzingProgress.fxml"));
+        Parent root = (Parent)sceneLoader.load();
+
+        // fetch the controller's class and assign directory String to class variable
+        ProgressSceneController controller = sceneLoader.<ProgressSceneController>getController();
+        controller.setDirectory(directory); // assign using setter
+
         Stage newStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("csvAnalyzingProgress.fxml"));
         newStage.setScene(new Scene(root, 400, 100));
         newStage.setTitle("Analyzing CSV Files");
         newStage.setResizable(false);
         newStage.show();
 
-        // identify actionEvent source and close scene
+        // identify actionEvent source and close previous scene
         Stage prevStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         prevStage.close();
     }
