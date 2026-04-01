@@ -16,18 +16,18 @@ public class ProgressSceneController {
     private ProgressBar progressBar;
 
     @FXML
-    protected void initialize(){
+    protected void initialize() {
         /* auto runs when scene starts */
         System.out.println("Progress window started");
+        progressBar.setProgress(progressBar.INDETERMINATE_PROGRESS); // change to intermediate type progress bar
     }
 
-    public void setDirectory(String directory) {
+    public void setDirectory(String directory) throws Exception {
+        /* acts as a setter and a "jump-started" for the main csv analysis process */
         this.directory = directory;
         statusUpdate.setText("Analyzing: " + this.directory);
-        mainProcess(); // start main process
-    }
 
-    void mainProcess(){
-        
+        DataExtractor extractor = new DataExtractor(directory);
+        extractor.mainProcess(); // start extraction process
     }
 }

@@ -38,7 +38,7 @@ public class StartingSceneController {
     }
 
     @FXML
-    protected void selectDirButtonClick(ActionEvent actionEvent) {
+    protected void selectDirButtonClick(ActionEvent actionEvent) throws Exception {
         /* retrieve custom csv directoryObj and store in class variable */
         File tempDirHolder;
 
@@ -54,15 +54,15 @@ public class StartingSceneController {
         /* check is all csv files exists before proceeding. Or else show error */
         if (!(customDirGiven)) {setDirectory("C:\\LibraryData");}
 
-        File accessDirectory = new File(this.directory);
+        File accessDirectory = new File(directory);
         File[] files = accessDirectory.listFiles(); // see all files which exists inside the directory
 
         // confirm csv file's existence by changing flag
         if (files != null){
             for (File file : files){
-                if (file.toString().equals(String.format("%s\\book.csv", this.directory))) {bookExists = true;}
-                if (file.toString().equals(String.format("%s\\student.csv", this.directory))) {studentExists = true;}
-                if (file.toString().equals(String.format("%s\\transactions.csv", this.directory))) {transactionExists = true;}
+                if (file.toString().equals(String.format("%s\\book.csv", directory))) {bookExists = true;}
+                if (file.toString().equals(String.format("%s\\student.csv", directory))) {studentExists = true;}
+                if (file.toString().equals(String.format("%s\\transactions.csv", directory))) {transactionExists = true;}
             }
         } else {
             showNoFileError();
@@ -70,7 +70,7 @@ public class StartingSceneController {
 
         if (bookExists && studentExists && transactionExists){
             SceneInitializer startScene = new SceneInitializer();
-            startScene.progressScene(actionEvent, this.directory); // start next scene and send directory info
+            startScene.progressScene(actionEvent, directory); // start next scene and send directory info
         } else {
             showNoFileError();
         }
