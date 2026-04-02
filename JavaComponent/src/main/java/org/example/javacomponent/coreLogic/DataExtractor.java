@@ -59,7 +59,8 @@ public class DataExtractor {
                             bookErrorTracker.put(i, 1); // record error location using row & element index
                         }
                         // validate no. of copies of books
-                        if (Integer.parseInt(csvData.get(i)[3]) > 2) {
+                        if ((Integer.parseInt(csvData.get(i)[3]) < 0)
+                                || (Integer.parseInt(csvData.get(i)[3]) > 2)) {
                             bookErrorTracker.put(i, 3); // record error location using row & element index
                         }
                         // validate no. of available books
