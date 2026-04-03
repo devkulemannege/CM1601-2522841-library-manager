@@ -1,4 +1,4 @@
-package org.example.javacomponent;
+package org.example.javacomponent.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.DirectoryChooser;
+import org.example.javacomponent.SceneInitializer;
 
 import java.io.File;
 

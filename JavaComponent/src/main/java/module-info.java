@@ -14,4 +14,6 @@ module org.example.javacomponent {
 
     opens org.example.javacomponent to javafx.fxml;
     exports org.example.javacomponent;
+    exports org.example.javacomponent.controllers;
+    opens org.example.javacomponent.controllers to javafx.fxml;
 }

@@ -17,6 +17,19 @@ public class DataExtractor {
         this.directory = directory;
     }
 
+    // getters for HashMaps class variables
+    public HashMap<Integer, Integer> getBookErrorTracker() {
+        return bookErrorTracker;
+    }
+
+    public HashMap<String, Integer> getStudentErrorTracker() {
+        return studentErrorTracker;
+    }
+
+    public HashMap<String, Integer> getTransactionsErrorTracker() {
+        return transactionsErrorTracker;
+    }
+
     void showCriticalError(String msg) {
         /* reusable method to show error box */
         Alert alert = new Alert(Alert.AlertType.ERROR); // show an error box if files not found
