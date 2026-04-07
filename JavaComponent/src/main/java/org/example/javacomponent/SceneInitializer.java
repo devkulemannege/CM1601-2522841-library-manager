@@ -65,7 +65,9 @@ public class SceneInitializer extends Application {
         ErrorCorrectorController controller = sceneLoader.<ErrorCorrectorController>getController();
 
         Stage newStage = new Stage();
-        newStage.setScene(new Scene(root, 800, 600)); // todo: change this
+        controller.setMaps(bookErrorTracker, studentErrorTracker, transactionsErrorTracker);
+
+        newStage.setScene(new Scene(root, 700, 250));
         newStage.setTitle("Library Data Viewer");
         newStage.setResizable(false);
         newStage.show();

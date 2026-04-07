@@ -6,7 +6,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
+
 public class ErrorCorrectorController {
+    private HashMap<Integer, Integer> bookErrorTracker;
+    private HashMap<String, Integer> studentErrorTracker;
+    private HashMap<String, Integer> transactionsErrorTracker;
+
+    public void setMaps(HashMap<Integer, Integer> bookErrorTracker, HashMap<String, Integer> studentErrorTracker, HashMap<String, Integer> transactionsErrorTracker){
+        /* Set error tracking maps of the class */
+        this.bookErrorTracker = bookErrorTracker;
+        this.studentErrorTracker = studentErrorTracker;
+        this.transactionsErrorTracker = transactionsErrorTracker;
+    }
+
     @FXML
     private AnchorPane anchorPane;
 
