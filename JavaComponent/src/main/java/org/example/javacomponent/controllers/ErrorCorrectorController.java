@@ -56,6 +56,8 @@ public class ErrorCorrectorController {
     private TextField correctValueInput;
     @FXML
     private Label errorCounter;
+    @FXML
+    private Label inputFormat;
 
     @FXML
     protected void initialize(){
@@ -75,8 +77,8 @@ public class ErrorCorrectorController {
     void emptyTextInput(){
         /* reusable method to show error box */
         Alert alert = new Alert(Alert.AlertType.WARNING); // show an error box if files not found
-        alert.setHeaderText("Please enter the corrected value!");
-        alert.setResizable(true);
+        alert.setHeaderText(null);
+        alert.setContentText("Please enter the corrected value in appropriate format!");
         alert.showAndWait();
     }
 
@@ -110,8 +112,35 @@ public class ErrorCorrectorController {
     }
 
     @FXML
+    protected void proceedIteration() {
+        /* handles input values and ALL input validations */
+        String inputValue = correctValueInput.getCharacters().toString();
+
+        String[] splitPairs = bookErrorArrayLst.get(bookCounter - 1).toString().split("="); // split key and value into an Array
+        int index = Integer.parseInt(splitPairs[1]);
+
+        if (inputValue.isEmpty()) {
+            emptyTextInput(); // show warning dialog
+        } else if (fileName.getText().equals("book.csv")) {
+            if (index == 1) {
+                // todo: isbn validator
+            } else if (index == 3 || index == 4) {
+                // todo: copies and available validator
+            } else {
+                iterateThroughErrors(); // proceed to iterate
+            }
+        } else if (fileName.getText().equals("student.csv")) {
+            System.out.println();
+            // todo: complete if statement
+        } else if (fileName.getText().equals("transactions.csv")) {
+            System.out.println();
+            // todo: complete if statement
+        }
+    }
+
     public void iterateThroughErrors(){
         /* Iterate through all errors and let the user resolve them */
+        inputFormat.setText(""); // revert to default empty string
 
         int totalErrorCount = bookErrorArrayLst.size() + studentErrorArrayLst.size() + transactionsErrorArrayLst.size();
         int resolvedErrorCount = bookCounter + studentCoutner + transactionsCounter;
@@ -131,6 +160,7 @@ public class ErrorCorrectorController {
             rowLabel.setText(rowString.substring(1, rowString.length()-1)); // remove [ & ] from array formatting
 
             if (value == 3 || value == 4){
+                inputFormat.setText("Enter copies and available (space-separated) eg: 2 1");
                 rowValueLabel.setText(String.format("Copies: %s, Available Copies: %s", row[3], row[4])); // indicate error by showing copies and available copies
             } else {
                 rowValueLabel.setText(row[value]); // show value with error within row

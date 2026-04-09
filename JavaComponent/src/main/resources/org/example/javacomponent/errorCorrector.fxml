@@ -7,7 +7,7 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="250.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.javacomponent.controllers.ErrorCorrectorController">
    <children>
-      <Button fx:id="doneButton" layoutX="538.0" layoutY="209.0" mnemonicParsing="false" onAction="#iterateThroughErrors" prefHeight="26.0" prefWidth="119.0" text="Done" />
+      <Button fx:id="doneButton" layoutX="538.0" layoutY="209.0" mnemonicParsing="false" onAction="#proceedIteration" prefHeight="26.0" prefWidth="119.0" text="Done" />
       <Text layoutX="18.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Correct the highlighted errors and confirm your changes." wrappingWidth="663.4453430175781">
          <font>
             <Font name="Segoe UI" size="13.0" />
@@ -55,5 +55,9 @@
          </font>
       </Text>
       <Label fx:id="errorCounter" layoutX="87.0" layoutY="220.0" text="Label" translateY="1.5" />
+      <Label fx:id="inputFormat" layoutX="331.0" layoutY="178.0" prefHeight="47.0" prefWidth="150.0" textFill="#4e4e4e" wrapText="true">
+         <font>
+            <Font name="Segoe UI Italic" size="12.0" />
+         </font></Label>
    </children>
 </AnchorPane>
