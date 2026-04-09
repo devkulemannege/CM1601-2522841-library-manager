@@ -1,26 +1,40 @@
 package org.example.javacomponent.controllers;
 
+import com.opencsv.CSVReader;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.example.javacomponent.AppVariables;
 
-import java.util.HashMap;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.*;
 
 public class ErrorCorrectorController {
     private Stage correctorStage;
-    private HashMap<Integer, Integer> bookErrorTracker;
-    private HashMap<Integer, String> studentErrorTracker;
-    private HashMap<Integer, String> transactionsErrorTracker;
 
-    public void setMaps(HashMap<Integer, Integer> bookErrorTracker, HashMap<Integer, String> studentErrorTracker, HashMap<Integer, String> transactionsErrorTracker){
-        /* Set error tracking maps of the class */
-        this.bookErrorTracker = bookErrorTracker;
-        this.studentErrorTracker = studentErrorTracker;
-        this.transactionsErrorTracker = transactionsErrorTracker;
+    /* iteration counters */
+    private int bookCounter = 0, studentCoutner = 0, transactionsCounter = 0;
+
+    /* HashMaps converted to ArrayList */
+    private ArrayList<Map.Entry<Integer, Integer>> bookErrorArrayLst;
+    private ArrayList<Map.Entry<Integer, String>> studentErrorArrayLst;
+    private ArrayList<Map.Entry<Integer, String>> transactionsErrorArrayLst;
+
+    public void setMaps(
+            HashMap<Integer, Integer> bookErrorTracker,
+            HashMap<Integer, String> studentErrorTracker,
+            HashMap<Integer, String> transactionsErrorTracker
+    ){
+        /* get HashMaps as converted Array Lists */
+        bookErrorArrayLst = new ArrayList<>(bookErrorTracker.entrySet());
+        studentErrorArrayLst = new ArrayList<>(studentErrorTracker.entrySet());
+        transactionsErrorArrayLst = new ArrayList<>(transactionsErrorTracker.entrySet());
     }
 
     public void setCorrectorStage(Stage correctorStage) {
@@ -40,24 +54,88 @@ public class ErrorCorrectorController {
     private Label fileName;
     @FXML
     private TextField correctValueInput;
+    @FXML
+    private Label errorCounter;
 
     @FXML
     protected void initialize(){
         /* initialize but does not do anything. Used to get the root*/
-        System.out.println("ErrorCorrectorController initialize");
     }
 
-    private String getRow(){
-        System.out.println("");
-        return "";
+    void showCriticalError(String msg) {
+        /* reusable method to show error box */
+        Alert alert = new Alert(Alert.AlertType.ERROR); // show an error box if files not found
+        alert.setHeaderText("An error occurred trying to read CSV file as a Subprocess.");
+        alert.setContentText(msg); // show error information
+        alert.setResizable(true);
+        alert.showAndWait();
+        System.exit(0); // close after critical error
     }
 
-    public void mainProcess(){
-        int count = 0; // increments with each iteration
-        for (HashMap.Entry<Integer, Integer> i : bookErrorTracker.entrySet()){
+    void emptyTextInput(){
+        /* reusable method to show error box */
+        Alert alert = new Alert(Alert.AlertType.WARNING); // show an error box if files not found
+        alert.setHeaderText("Please enter the corrected value!");
+        alert.setResizable(true);
+        alert.showAndWait();
+    }
+
+    private String[] getRowFromBooks(int key, int value){
+        /* find and return the row from book.csv */
+        int loopCounter = 0; // counter for the for loop
+        try {
+            CSVReader reader = new CSVReader(new FileReader(String.format("%s\\%s", AppVariables.getDirectory(), "book.csv")));
+            List<String[]> csvData = reader.readAll(); // create List interface
+            csvData.removeFirst(); // remove column headers
+
+            for (String[] row : csvData) {
+                if (loopCounter+2 == key){ // add 2 since first row is removed and counter starts from 0
+                    return row;
+                }
+                loopCounter++;
+            }
+
+        } catch (Exception e) {
+            showCriticalError(e.toString()); // handle error if critical error arises
+        }
+        return(new String[0]); // return empty array
+    }
+
+    private String getRowFromStudents(){
+        return(""); // todo: make the logic
+    }
+
+    private String getRowFromTransactions(){
+        return(""); // todo: make the logic
+    }
+
+    @FXML
+    public void iterateThroughErrors(){
+        /* Iterate through all errors and let the user resolve them */
+
+        int totalErrorCount = bookErrorArrayLst.size() + studentErrorArrayLst.size() + transactionsErrorArrayLst.size();
+        int resolvedErrorCount = bookCounter + studentCoutner + transactionsCounter;
+        errorCounter.setText(String.format("%s/%s", resolvedErrorCount, totalErrorCount)); // display resolved errors against num of errors remaining
+
+        if (!(bookErrorArrayLst.isEmpty() && bookCounter == bookErrorArrayLst.size())){ // check if no errors or all errors resolved
+            bookCounter++;
+
+            String[] splitPairs = bookErrorArrayLst.get(bookCounter-1).toString().split("="); // split key and value into an Array
+            int key = Integer.parseInt(splitPairs[0]); // convert to int
+            int value = Integer.parseInt(splitPairs[1]);
 
             fileName.setText("book.csv");
-            rowLabel.setText(i.toString());
+
+            String[] row = getRowFromBooks(key, value); // find row using method
+            String rowString = Arrays.toString(row);
+            rowLabel.setText(rowString.substring(1, rowString.length()-1)); // remove [ & ] from array formatting
+
+            if (value == 3 || value == 4){
+                rowValueLabel.setText(String.format("Copies: %s, Available Copies: %s", row[3], row[4])); // indicate error by showing copies and available copies
+            } else {
+                rowValueLabel.setText(row[value]); // show value with error within row
+            }
         }
+        // todo: iteration logic for remaining csv data
     }
 }
