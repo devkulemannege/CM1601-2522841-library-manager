@@ -29,7 +29,6 @@ public class ProgressSceneController {
     @FXML
     protected void initialize() {
         /* auto runs when scene starts */
-        System.out.println("Progress window started");
         progressBar.setProgress(progressBar.INDETERMINATE_PROGRESS); // change to intermediate type progress bar
     }
 
@@ -37,7 +36,7 @@ public class ProgressSceneController {
         /* acts as a setter and a "jump-started" for the main csv analysis process */
         statusUpdate.setText(String.format("Analyzing: %s", AppVariables.getDirectory()));
 
-        DataExtractor extractor = new DataExtractor(AppVariables.getDirectory());
+        DataExtractor extractor = new DataExtractor();
         extractor.mainProcess(); // start extraction process
 
         // get the error tracker maps for each csv file. These variables are to be sent to corrector scene

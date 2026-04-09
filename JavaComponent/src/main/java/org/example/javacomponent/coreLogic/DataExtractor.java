@@ -3,20 +3,15 @@ package org.example.javacomponent.coreLogic;
 import com.opencsv.CSVReader;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.Region;
+import org.example.javacomponent.AppVariables;
 
 import java.io.FileReader;
 import java.util.*;
 
 public class DataExtractor {
-    private String directory;
     private HashMap<Integer, Integer> bookErrorTracker = new HashMap<Integer, Integer>();
     private HashMap<Integer, String> studentErrorTracker = new HashMap<Integer, String>();
     private HashMap<Integer, String> transactionsErrorTracker = new HashMap<Integer, String>();
-
-    public DataExtractor(String directory){
-        /* contractor method */
-        this.directory = directory;
-    }
 
     // getters for HashMaps class variables
     public HashMap<Integer, Integer> getBookErrorTracker() {
@@ -34,7 +29,7 @@ public class DataExtractor {
     void showCriticalError(String msg) {
         /* reusable method to show error box */
         Alert alert = new Alert(Alert.AlertType.ERROR); // show an error box if files not found
-        alert.setHeaderText("An error occurred trying to read CSV file");
+        alert.setHeaderText("An error occurred trying to read CSV file.");
         alert.setContentText(msg); // show error information
         alert.setResizable(true);
         alert.showAndWait();
@@ -46,7 +41,7 @@ public class DataExtractor {
 
         // loop through all csv files
         for (String fileName : fileNames){
-            FileReader fileReader = new FileReader(String.format("%s\\%s", directory, fileName));
+            FileReader fileReader = new FileReader(String.format("%s\\%s", AppVariables.getDirectory(), fileName));
             CSVReader reader = new CSVReader(fileReader); // read csv file using OpenCSV
 
             List<String[]> csvData = reader.readAll(); // create List interface
@@ -74,17 +69,16 @@ public class DataExtractor {
                             bookErrorTracker.put(i+2, 1); // record error location using row & element index
                         }
                         // validate no. of copies of books
-                        if ((Integer.parseInt(csvData.get(i)[3]) < 0)
-                                || (Integer.parseInt(csvData.get(i)[3]) > 2)) {
+                        if (!(Integer.parseInt(csvData.get(i)[3]) > 0 && Integer.parseInt(csvData.get(i)[3]) <= 2)) {
                             bookErrorTracker.put(i+2, 3); // record error location using row & element index
                         }
                         // validate no. of available books
-                        if ((Integer.parseInt(csvData.get(i)[4]) < 0)
-                                || (Integer.parseInt(csvData.get(i)[4]) > Integer.parseInt(csvData.get(i)[3]))) {
+                        if (!(Integer.parseInt(csvData.get(i)[4]) > 0
+                                && Integer.parseInt(csvData.get(i)[4]) <= Integer.parseInt(csvData.get(i)[3]))) {
                             bookErrorTracker.put(i+2, 4); // record error location using row & element index
                         }
                     } catch (Exception e) {
-                        showCriticalError(e.getMessage());
+                        showCriticalError(e.toString());
                     }
 
                 } else if (fileName.equals("student.csv")) {
@@ -138,7 +132,7 @@ public class DataExtractor {
                     } catch (NumberFormatException e) {
                         transactionsErrorTracker.put(i+2, "invalid");
                     } catch (Exception e) {
-                        showCriticalError(e.getMessage());
+                        showCriticalError(e.toString());
                     }
                 }
             }

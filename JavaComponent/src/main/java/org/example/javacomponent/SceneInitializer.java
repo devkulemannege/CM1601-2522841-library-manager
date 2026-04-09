@@ -67,7 +67,7 @@ public class SceneInitializer extends Application {
         Stage correctorStage = new Stage();
         controller.setMaps(bookErrorTracker, studentErrorTracker, transactionsErrorTracker);
         controller.setCorrectorStage(correctorStage);
-        controller.mainProcess(); // start main process
+        controller.iterateThroughErrors(); // start main process
 
         correctorStage.setScene(new Scene(root, 700, 250));
         correctorStage.setTitle("Library Data Viewer");

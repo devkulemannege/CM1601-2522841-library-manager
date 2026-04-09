@@ -58,8 +58,6 @@ public class StartingSceneController {
         File accessDirectory = new File(AppVariables.getDirectory());
         File[] files = accessDirectory.listFiles(); // see all files which exists inside the directory
 
-        System.out.printf("%s\\book.csv%n", AppVariables.getDirectory());
-
         // confirm csv file's existence by changing flag
         if (files != null){
             for (File file : files){
