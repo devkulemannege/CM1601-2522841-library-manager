@@ -5,13 +5,13 @@ import javafx.scene.control.Label;
 
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
+import org.example.javacomponent.AppVariables;
 import org.example.javacomponent.SceneInitializer;
 import org.example.javacomponent.coreLogic.DataExtractor;
 
 import java.util.HashMap;
 
 public class ProgressSceneController {
-    private String directory;
     private Stage progressStage;
     private HashMap<Integer, Integer> bookErrorTracker;
     private HashMap<Integer, String> studentErrorTracker;
@@ -33,12 +33,11 @@ public class ProgressSceneController {
         progressBar.setProgress(progressBar.INDETERMINATE_PROGRESS); // change to intermediate type progress bar
     }
 
-    public void setVariables(String directory) throws Exception {
+    public void setVariables() throws Exception {
         /* acts as a setter and a "jump-started" for the main csv analysis process */
-        this.directory = directory;
-        statusUpdate.setText("Analyzing: " + this.directory);
+        statusUpdate.setText(String.format("Analyzing: %s", AppVariables.getDirectory()));
 
-        DataExtractor extractor = new DataExtractor(directory);
+        DataExtractor extractor = new DataExtractor(AppVariables.getDirectory());
         extractor.mainProcess(); // start extraction process
 
         // get the error tracker maps for each csv file. These variables are to be sent to corrector scene

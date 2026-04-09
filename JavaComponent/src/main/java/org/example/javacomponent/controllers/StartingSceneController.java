@@ -6,12 +6,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.DirectoryChooser;
+import org.example.javacomponent.AppVariables;
 import org.example.javacomponent.SceneInitializer;
 
 import java.io.File;
 
 public class StartingSceneController {
-    private String directory;
     boolean customDirGiven = false;
     boolean bookExists = false, studentExists = false, transactionExists= false; // initialize file exist flags
 
@@ -26,8 +26,8 @@ public class StartingSceneController {
 
     void setDirectory(String directory) {
         /* class-exclusive method. Does not follow encapsulation */
-        this.directory = directory;
-        pathDisplay.setText(this.directory); // update selected directory ui
+        AppVariables.setDirectory(directory);
+        pathDisplay.setText(AppVariables.getDirectory()); // update selected directory ui
     }
 
     void showNoFileError() {
@@ -44,9 +44,9 @@ public class StartingSceneController {
         File tempDirHolder;
 
         DirectoryChooser dirChooser = new DirectoryChooser();
-        this.directory = (dirChooser.showDialog(null)).getAbsolutePath(); // get the folder path in String
+        AppVariables.setDirectory(dirChooser.showDialog(null).getAbsolutePath()); // get the folder path in String
 
-        pathDisplay.setText(directory);
+        pathDisplay.setText(AppVariables.getDirectory());
         customDirGiven = true;
     }
 
@@ -55,15 +55,17 @@ public class StartingSceneController {
         /* check is all csv files exists before proceeding. Or else show error */
         if (!(customDirGiven)) {setDirectory("C:\\LibraryData");}
 
-        File accessDirectory = new File(directory);
+        File accessDirectory = new File(AppVariables.getDirectory());
         File[] files = accessDirectory.listFiles(); // see all files which exists inside the directory
+
+        System.out.printf("%s\\book.csv%n", AppVariables.getDirectory());
 
         // confirm csv file's existence by changing flag
         if (files != null){
             for (File file : files){
-                if (file.toString().equals(String.format("%s\\book.csv", directory))) {bookExists = true;}
-                if (file.toString().equals(String.format("%s\\student.csv", directory))) {studentExists = true;}
-                if (file.toString().equals(String.format("%s\\transactions.csv", directory))) {transactionExists = true;}
+                if (file.toString().equals(String.format("%s\\book.csv", AppVariables.getDirectory()))) {bookExists = true;}
+                if (file.toString().equals(String.format("%s\\student.csv", AppVariables.getDirectory()))) {studentExists = true;}
+                if (file.toString().equals(String.format("%s\\transactions.csv", AppVariables.getDirectory()))) {transactionExists = true;}
             }
         } else {
             showNoFileError();
@@ -71,7 +73,7 @@ public class StartingSceneController {
 
         if (bookExists && studentExists && transactionExists){
             SceneInitializer startScene = new SceneInitializer();
-            startScene.progressScene(actionEvent, directory); // start next scene and send directory info
+            startScene.progressScene(actionEvent); // start next scene and send directory info
         } else {
             showNoFileError();
         }
