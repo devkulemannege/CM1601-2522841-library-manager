@@ -54,8 +54,8 @@ public class SceneInitializer extends Application {
     public void correctorScene(
             Stage progressStage,
             HashMap<Integer, Integer> bookErrorTracker,
-            HashMap<String, Integer> studentErrorTracker,
-            HashMap<String, Integer> transactionsErrorTracker
+            HashMap<Integer, String> studentErrorTracker,
+            HashMap<Integer, String> transactionsErrorTracker
     ) throws Exception {
         /* create new stage for the progress when correcting csv formst errors */
         FXMLLoader sceneLoader = new FXMLLoader(getClass().getResource("errorCorrector.fxml"));
@@ -64,13 +64,14 @@ public class SceneInitializer extends Application {
         // fetch the controller's class and assign directory String to class variable
         ErrorCorrectorController controller = sceneLoader.<ErrorCorrectorController>getController();
 
-        Stage newStage = new Stage();
+        Stage correctorStage = new Stage();
         controller.setMaps(bookErrorTracker, studentErrorTracker, transactionsErrorTracker);
+        controller.setCorrectorStage(correctorStage);
 
-        newStage.setScene(new Scene(root, 700, 250));
-        newStage.setTitle("Library Data Viewer");
-        newStage.setResizable(false);
-        newStage.show();
+        correctorStage.setScene(new Scene(root, 700, 250));
+        correctorStage.setTitle("Library Data Viewer");
+        correctorStage.setResizable(false);
+        correctorStage.show();
 
         // close the progress scene
         progressStage.close();

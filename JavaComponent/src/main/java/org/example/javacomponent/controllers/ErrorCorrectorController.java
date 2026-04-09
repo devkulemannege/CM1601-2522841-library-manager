@@ -9,15 +9,21 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 
 public class ErrorCorrectorController {
+    private Stage correctorStage;
     private HashMap<Integer, Integer> bookErrorTracker;
-    private HashMap<String, Integer> studentErrorTracker;
-    private HashMap<String, Integer> transactionsErrorTracker;
+    private HashMap<Integer, String> studentErrorTracker;
+    private HashMap<Integer, String> transactionsErrorTracker;
 
-    public void setMaps(HashMap<Integer, Integer> bookErrorTracker, HashMap<String, Integer> studentErrorTracker, HashMap<String, Integer> transactionsErrorTracker){
+    public void setMaps(HashMap<Integer, Integer> bookErrorTracker, HashMap<Integer, String> studentErrorTracker, HashMap<Integer, String> transactionsErrorTracker){
         /* Set error tracking maps of the class */
         this.bookErrorTracker = bookErrorTracker;
         this.studentErrorTracker = studentErrorTracker;
         this.transactionsErrorTracker = transactionsErrorTracker;
+    }
+
+    public void setCorrectorStage(Stage correctorStage) {
+        /* get the stage representing the corrector scene */
+        this.correctorStage = correctorStage;
     }
 
     @FXML
@@ -25,16 +31,9 @@ public class ErrorCorrectorController {
 
     @FXML
     protected void initialize(){
-        // todo: show errors one by one and iterate to the next when ok is clicked. show total errors on top
-        for (int i=0; i<5; i++){
-            Label label = new Label(); // NEW label every time
-            label.setText("Hello " + (i + 1));
-
-            // optional: position it in AnchorPane
-            AnchorPane.setTopAnchor(label, 10.0 + i * 25);
-            AnchorPane.setLeftAnchor(label, 10.0);
-
-            anchorPane.getChildren().add(label);
+        // todo: show errors one by one and iterate to the next when ok is clicked. show total errors on top for (int i=0; i<5; i++){
+        for (Integer key : transactionsErrorTracker.keySet()) {
+            System.out.println(key);
         }
     }
 }

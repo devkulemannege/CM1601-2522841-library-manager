@@ -2,6 +2,7 @@ package org.example.javacomponent.coreLogic;
 
 import com.opencsv.CSVReader;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.Region;
 
 import java.io.FileReader;
 import java.util.*;
@@ -9,8 +10,8 @@ import java.util.*;
 public class DataExtractor {
     private String directory;
     private HashMap<Integer, Integer> bookErrorTracker = new HashMap<Integer, Integer>();
-    private HashMap<String, Integer> studentErrorTracker = new HashMap<String, Integer>();
-    private HashMap<String, Integer> transactionsErrorTracker = new HashMap<String, Integer>();
+    private HashMap<Integer, String> studentErrorTracker = new HashMap<Integer, String>();
+    private HashMap<Integer, String> transactionsErrorTracker = new HashMap<Integer, String>();
 
     public DataExtractor(String directory){
         /* contractor method */
@@ -22,19 +23,20 @@ public class DataExtractor {
         return bookErrorTracker;
     }
 
-    public HashMap<String, Integer> getStudentErrorTracker() {
+    public HashMap<Integer, String> getStudentErrorTracker() {
         return studentErrorTracker;
     }
 
-    public HashMap<String, Integer> getTransactionsErrorTracker() {
+    public HashMap<Integer, String> getTransactionsErrorTracker() {
         return transactionsErrorTracker;
     }
 
     void showCriticalError(String msg) {
         /* reusable method to show error box */
         Alert alert = new Alert(Alert.AlertType.ERROR); // show an error box if files not found
-        alert.setContentText(String.format("An error occurred trying to read CSV file: \n%s", msg));
-        alert.setHeaderText(null);
+        alert.setHeaderText("An error occurred trying to read CSV file");
+        alert.setContentText(msg); // show error information
+        alert.setResizable(true);
         alert.showAndWait();
         System.exit(0); // close after critical error
     }
@@ -69,17 +71,17 @@ public class DataExtractor {
                         checkDigit = checkDigit % 10; // remainder
                         checkDigit = (10 - checkDigit) % 10;
                         if (checkDigit != actualCheckDigit) {
-                            bookErrorTracker.put(i, 1); // record error location using row & element index
+                            bookErrorTracker.put(i+2, 1); // record error location using row & element index
                         }
                         // validate no. of copies of books
                         if ((Integer.parseInt(csvData.get(i)[3]) < 0)
                                 || (Integer.parseInt(csvData.get(i)[3]) > 2)) {
-                            bookErrorTracker.put(i, 3); // record error location using row & element index
+                            bookErrorTracker.put(i+2, 3); // record error location using row & element index
                         }
                         // validate no. of available books
                         if ((Integer.parseInt(csvData.get(i)[4]) < 0)
                                 || (Integer.parseInt(csvData.get(i)[4]) > Integer.parseInt(csvData.get(i)[3]))) {
-                            bookErrorTracker.put(i, 4); // record error location using row & element index
+                            bookErrorTracker.put(i+2, 4); // record error location using row & element index
                         }
                     } catch (Exception e) {
                         showCriticalError(e.getMessage());
@@ -89,27 +91,27 @@ public class DataExtractor {
                     // validate student ID
                     try {
                         int whileCounterTracker = 0, duplicateCounter = 0;
-                        int currentStudentId = Integer.parseInt(csvData.get(i)[0]); // get the current student ID
+                        String currentStudentId = csvData.get(i)[0]; // get the current student ID
 
                         // loop and find if any duplicates exists
                         while (whileCounterTracker < csvData.size()) {
-                            int whileIterateId = Integer.parseInt(csvData.get(whileCounterTracker)[0]);
+                            String whileIterateId = csvData.get(whileCounterTracker)[0];
 
-                            if (whileIterateId == currentStudentId) {
+                            if (whileIterateId.equals(currentStudentId)) {
                                 duplicateCounter++;
                             }
-                            if ((Integer.toString(whileIterateId).length() != 8)
-                                    || !(Integer.toString(whileIterateId).matches("[0-9]*"))) {
-                                studentErrorTracker.put("invalid", whileIterateId); // record student ID error type and row
+                            if ((whileIterateId.length() != 8)
+                                    || !(whileIterateId.matches("[0-9]*"))) {
+                                studentErrorTracker.put(whileCounterTracker+2, "invalid"); // record student ID error type and row
                             }
                             if (duplicateCounter == 2) {
-                                studentErrorTracker.put("duplicate", whileCounterTracker); // record student ID error type and row
+                                studentErrorTracker.put(whileCounterTracker+2, "duplicate"); // record student ID error type and row
                                 break;
                             }
                             whileCounterTracker++;
                         }
                     } catch (Exception e) {
-                        showCriticalError(e.getMessage());
+                        showCriticalError(e.toString());
                     }
 
                 } else if (fileName.equals("transactions.csv")) {
@@ -122,19 +124,19 @@ public class DataExtractor {
                         int year = Integer.parseInt(splitDate[2]);
 
                         if (!(0 < day && day < 32)) {
-                            transactionsErrorTracker.put("day", i);
+                            transactionsErrorTracker.put(i+2, "day");
                         }
                         if (!(0 < month && month < 13)) {
-                            transactionsErrorTracker.put("month", i);
+                            transactionsErrorTracker.put(i+2, "month");
                         }
                         if (!(1999 < year)) {
-                            transactionsErrorTracker.put("year", i);
+                            transactionsErrorTracker.put(i+2, "year");
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
                         // record as error if date is missing the day, month or year
-                        transactionsErrorTracker.put("invalid", i);
+                        transactionsErrorTracker.put(i+2, "invalid");
                     } catch (NumberFormatException e) {
-                        transactionsErrorTracker.put("invalid", i);
+                        transactionsErrorTracker.put(i+2, "invalid");
                     } catch (Exception e) {
                         showCriticalError(e.getMessage());
                     }

@@ -14,8 +14,8 @@ public class ProgressSceneController {
     private String directory;
     private Stage progressStage;
     private HashMap<Integer, Integer> bookErrorTracker ;
-    private HashMap<String, Integer> studentErrorTracker;
-    private HashMap<String, Integer> transactionsErrorTracker;
+    private HashMap<Integer, String> studentErrorTracker;
+    private HashMap<Integer, String> transactionsErrorTracker;
 
     public void setProgressStage(Stage progressStage) {
         this.progressStage = progressStage;
@@ -45,6 +45,11 @@ public class ProgressSceneController {
         this.bookErrorTracker = extractor.getBookErrorTracker();
         this.studentErrorTracker = extractor.getStudentErrorTracker();
         this.transactionsErrorTracker = extractor.getTransactionsErrorTracker();
+
+        for (HashMap.Entry<Integer, String> i : studentErrorTracker.entrySet()){
+            System.out.println("Key = " + i.getKey() +
+                    ", Value = " + i.getValue());
+        }
     }
 
     public void startCorrector() throws Exception {
