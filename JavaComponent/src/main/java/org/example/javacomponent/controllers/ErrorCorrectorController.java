@@ -1,9 +1,11 @@
 package org.example.javacomponent.controllers;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
@@ -28,12 +30,34 @@ public class ErrorCorrectorController {
 
     @FXML
     private AnchorPane anchorPane;
+    @FXML
+    private Button doneButton;
+    @FXML
+    private Label rowLabel;
+    @FXML
+    private Label rowValueLabel;
+    @FXML
+    private Label fileName;
+    @FXML
+    private TextField correctValueInput;
 
     @FXML
     protected void initialize(){
-        // todo: show errors one by one and iterate to the next when ok is clicked. show total errors on top for (int i=0; i<5; i++){
-        for (Integer key : transactionsErrorTracker.keySet()) {
-            System.out.println(key);
+        /* initialize but does not do anything. Used to get the root*/
+        System.out.println("ErrorCorrectorController initialize");
+    }
+
+    private String getRow(){
+        System.out.println("");
+        return "";
+    }
+
+    public void mainProcess(){
+        int count = 0; // increments with each iteration
+        for (HashMap.Entry<Integer, Integer> i : bookErrorTracker.entrySet()){
+
+            fileName.setText("book.csv");
+            rowLabel.setText(i.toString());
         }
     }
 }

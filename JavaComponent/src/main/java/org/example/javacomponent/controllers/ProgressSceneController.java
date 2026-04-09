@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class ProgressSceneController {
     private String directory;
     private Stage progressStage;
-    private HashMap<Integer, Integer> bookErrorTracker ;
+    private HashMap<Integer, Integer> bookErrorTracker;
     private HashMap<Integer, String> studentErrorTracker;
     private HashMap<Integer, String> transactionsErrorTracker;
 
@@ -45,17 +45,13 @@ public class ProgressSceneController {
         this.bookErrorTracker = extractor.getBookErrorTracker();
         this.studentErrorTracker = extractor.getStudentErrorTracker();
         this.transactionsErrorTracker = extractor.getTransactionsErrorTracker();
-
-        for (HashMap.Entry<Integer, String> i : studentErrorTracker.entrySet()){
-            System.out.println("Key = " + i.getKey() +
-                    ", Value = " + i.getValue());
-        }
     }
 
     public void startCorrector() throws Exception {
         // start scene for format correction
         if (bookErrorTracker.isEmpty() && studentErrorTracker.isEmpty() && transactionsErrorTracker.isEmpty()) {
-            System.out.println("No book and student and transactions were found");
+            System.out.println("No book, student and transactions errors were found");
+            // todo: create logic to skip correction
         } else {
             SceneInitializer startScene = new SceneInitializer();
             startScene.correctorScene(progressStage, bookErrorTracker, studentErrorTracker, transactionsErrorTracker);
