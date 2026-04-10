@@ -11,6 +11,7 @@ module org.example.javacomponent {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires opencsv;
+    requires java.desktop;
 
     opens org.example.javacomponent to javafx.fxml;
     exports org.example.javacomponent;

@@ -2,7 +2,6 @@ package org.example.javacomponent.controllers;
 
 import com.opencsv.CSVReader;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,13 +9,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.javacomponent.AppVariables;
+import org.example.javacomponent.coreLogic.inputValidation.BookValidator;
+import org.example.javacomponent.coreLogic.inputValidation.StudentValidator;
+import org.example.javacomponent.coreLogic.inputValidation.TransactionsValidator;
 
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.*;
 
 public class ErrorCorrectorController {
-    private Stage correctorStage;
+    private Stage correctorStage; // placeholder for the stage
 
     /* iteration counters */
     private int bookCounter = 0, studentCoutner = 0, transactionsCounter = 0;
@@ -74,13 +75,14 @@ public class ErrorCorrectorController {
         System.exit(0); // close after critical error
     }
 
-    void emptyTextInput(){
+    void incorrectTextInput(){
         /* reusable method to show error box */
         Alert alert = new Alert(Alert.AlertType.WARNING); // show an error box if files not found
         alert.setHeaderText(null);
         alert.setContentText("Please enter the corrected value in appropriate format!");
         alert.showAndWait();
     }
+
 
     private String[] getRowFromBooks(int key, int value){
         /* find and return the row from book.csv */
@@ -114,27 +116,26 @@ public class ErrorCorrectorController {
     @FXML
     protected void proceedIteration() {
         /* handles input values and ALL input validations */
-        String inputValue = correctValueInput.getCharacters().toString();
+        boolean result = false; // initialize
+        int index = 0;
 
-        String[] splitPairs = bookErrorArrayLst.get(bookCounter - 1).toString().split("="); // split key and value into an Array
-        int index = Integer.parseInt(splitPairs[1]);
+        String fileNameValue = fileName.getText();
+        String inputValue = correctValueInput.getText();
 
-        if (inputValue.isEmpty()) {
-            emptyTextInput(); // show warning dialog
-        } else if (fileName.getText().equals("book.csv")) {
-            if (index == 1) {
-                // todo: isbn validator
-            } else if (index == 3 || index == 4) {
-                // todo: copies and available validator
-            } else {
-                iterateThroughErrors(); // proceed to iterate
-            }
-        } else if (fileName.getText().equals("student.csv")) {
-            System.out.println();
-            // todo: complete if statement
-        } else if (fileName.getText().equals("transactions.csv")) {
-            System.out.println();
-            // todo: complete if statement
+        switch (fileNameValue) {
+            case "book.csv" -> result = new BookValidator().validate(
+                    inputValue, bookErrorArrayLst, bookCounter - 1);
+            case "student.csv" -> result = new StudentValidator().validate(
+                    inputValue, studentErrorArrayLst, studentCoutner - 1);
+            case "transactions.csv" -> result = new TransactionsValidator().validate(
+                    inputValue, transactionsErrorArrayLst, transactionsCounter - 1);
+        }
+
+        if (result) {
+            // todo: edit row in csv file
+            iterateThroughErrors(); // continue to next error
+        } else {
+            incorrectTextInput();
         }
     }
 
@@ -159,9 +160,10 @@ public class ErrorCorrectorController {
             String rowString = Arrays.toString(row);
             rowLabel.setText(rowString.substring(1, rowString.length()-1)); // remove [ & ] from array formatting
 
+            // if error is in copies or availability
             if (value == 3 || value == 4){
                 inputFormat.setText("Enter copies and available (space-separated) eg: 2 1");
-                rowValueLabel.setText(String.format("Copies: %s, Available Copies: %s", row[3], row[4])); // indicate error by showing copies and available copies
+                rowValueLabel.setText(String.format("Copies: %s, Available Copies: %s", row[3], row[4]));
             } else {
                 rowValueLabel.setText(row[value]); // show value with error within row
             }
