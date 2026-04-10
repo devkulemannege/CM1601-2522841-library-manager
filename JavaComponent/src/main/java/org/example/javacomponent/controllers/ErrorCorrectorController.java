@@ -9,7 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.javacomponent.AppVariables;
+import org.example.javacomponent.coreLogic.dataModifer.DataModifer;
 import org.example.javacomponent.coreLogic.inputValidation.BookValidator;
+import org.example.javacomponent.coreLogic.inputValidation.InputValidator;
 import org.example.javacomponent.coreLogic.inputValidation.StudentValidator;
 import org.example.javacomponent.coreLogic.inputValidation.TransactionsValidator;
 
@@ -20,7 +22,7 @@ public class ErrorCorrectorController {
     private Stage correctorStage; // placeholder for the stage
 
     /* iteration counters */
-    private int bookCounter = 0, studentCoutner = 0, transactionsCounter = 0;
+    private int bookCounter = 0, studentCouter = 0, transactionsCounter = 0;
 
     /* HashMaps converted to ArrayList */
     private ArrayList<Map.Entry<Integer, Integer>> bookErrorArrayLst;
@@ -94,6 +96,7 @@ public class ErrorCorrectorController {
 
             for (String[] row : csvData) {
                 if (loopCounter+2 == key){ // add 2 since first row is removed and counter starts from 0
+                    reader.close(); // close CSVreader
                     return row;
                 }
                 loopCounter++;
@@ -120,19 +123,19 @@ public class ErrorCorrectorController {
         int index = 0;
 
         String fileNameValue = fileName.getText();
-        String inputValue = correctValueInput.getText();
+        String inputValue = correctValueInput.getCharacters().toString();
 
-        switch (fileNameValue) {
-            case "book.csv" -> result = new BookValidator().validate(
-                    inputValue, bookErrorArrayLst, bookCounter - 1);
-            case "student.csv" -> result = new StudentValidator().validate(
-                    inputValue, studentErrorArrayLst, studentCoutner - 1);
-            case "transactions.csv" -> result = new TransactionsValidator().validate(
-                    inputValue, transactionsErrorArrayLst, transactionsCounter - 1);
-        }
+        // validate the input given by the user
+        result = new InputValidator().insertData(inputValue, fileNameValue,
+                bookErrorArrayLst, studentErrorArrayLst, transactionsErrorArrayLst,
+                bookCounter, studentCouter, transactionsCounter);
 
         if (result) {
-            // todo: edit row in csv file
+            new DataModifer().insertData(
+                    inputValue, fileNameValue,
+                    bookErrorArrayLst, studentErrorArrayLst, transactionsErrorArrayLst,
+                    bookCounter, studentCouter, transactionsCounter
+            );
             iterateThroughErrors(); // continue to next error
         } else {
             incorrectTextInput();
@@ -144,10 +147,13 @@ public class ErrorCorrectorController {
         inputFormat.setText(""); // revert to default empty string
 
         int totalErrorCount = bookErrorArrayLst.size() + studentErrorArrayLst.size() + transactionsErrorArrayLst.size();
-        int resolvedErrorCount = bookCounter + studentCoutner + transactionsCounter;
-        errorCounter.setText(String.format("%s/%s", resolvedErrorCount, totalErrorCount)); // display resolved errors against num of errors remaining
+        int resolvedErrorCount = bookCounter + studentCouter + transactionsCounter;
 
-        if (!(bookErrorArrayLst.isEmpty() && bookCounter == bookErrorArrayLst.size())){ // check if no errors or all errors resolved
+        // display resolved errors against num of errors remaining
+        errorCounter.setText(String.format("%s/%s", resolvedErrorCount, totalErrorCount));
+
+        // check if no errors or all errors resolved
+        if (!(bookErrorArrayLst.isEmpty() && bookCounter == bookErrorArrayLst.size())){
             bookCounter++;
 
             String[] splitPairs = bookErrorArrayLst.get(bookCounter-1).toString().split("="); // split key and value into an Array

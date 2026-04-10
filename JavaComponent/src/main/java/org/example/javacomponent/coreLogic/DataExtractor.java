@@ -6,6 +6,7 @@ import javafx.scene.layout.Region;
 import org.example.javacomponent.AppVariables;
 
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class DataExtractor {
@@ -36,47 +37,46 @@ public class DataExtractor {
         System.exit(0); // close after critical error
     }
 
-    public void mainProcess() throws Exception{
+    public void mainProcess() {
         String[] fileNames = {"book.csv","student.csv","transactions.csv"};
 
         // loop through all csv files
         for (String fileName : fileNames){
-            FileReader fileReader = new FileReader(String.format("%s\\%s", AppVariables.getDirectory(), fileName));
-            CSVReader reader = new CSVReader(fileReader); // read csv file using OpenCSV
+            // read csv file using OpenCSV
 
-            List<String[]> csvData = reader.readAll(); // create List interface
-            csvData.removeFirst(); // remove column headers
+            List<String[]> csvData = null; // create List interface
+            try {
+                CSVReader reader = new CSVReader(new FileReader(String.format("%s\\%s", AppVariables.getDirectory(), fileName)));
+                csvData = reader.readAll();
+                csvData.removeFirst(); // remove column headers
+            } catch (IOException e) {
+                showCriticalError(e.toString());
+            } catch (Exception e) {
+                showCriticalError(e.toString());
+            }
 
             // loop through elements on of individual rows
             for (int i = 0; i< csvData.size(); i++){
                 if (fileName.equals("book.csv")) {
                     // validate ISBN check digits
+                    String isbn = csvData.get(i)[1].toString(); // get isbn to a variable
                     try {
-                        int checkDigit = 0, actualCheckDigit = 0;
-                        String[] isbnCharacters = (csvData.get(i)[1].toString()).split("");
-                        actualCheckDigit = Integer.parseInt(isbnCharacters[isbnCharacters.length - 1]);
-
-                        for (int pos = 0; pos < isbnCharacters.length - 1; pos++) {
-                            if ((pos % 2) == 1) {
-                                checkDigit += Integer.parseInt(isbnCharacters[pos]) * 3;
-                            } else {
-                                checkDigit += Integer.parseInt(isbnCharacters[pos]);
-                            }
-                        }
-                        checkDigit = checkDigit % 10; // remainder
-                        checkDigit = (10 - checkDigit) % 10;
-                        if (checkDigit != actualCheckDigit) {
-                            bookErrorTracker.put(i+2, 1); // record error location using row & element index
+                        if (!(IsbnFormat.validate(isbn))) { // validate using custom method
+                            bookErrorTracker.put(i + 2, 1); // record error location using row & element index
                         }
                         // validate no. of copies of books
                         if (!(Integer.parseInt(csvData.get(i)[3]) > 0 && Integer.parseInt(csvData.get(i)[3]) <= 2)) {
-                            bookErrorTracker.put(i+2, 3); // record error location using row & element index
+                            bookErrorTracker.put(i + 2, 3); // record error location using row & element index
                         }
                         // validate no. of available books
                         if (!(Integer.parseInt(csvData.get(i)[4]) > 0
                                 && Integer.parseInt(csvData.get(i)[4]) <= Integer.parseInt(csvData.get(i)[3]))) {
-                            bookErrorTracker.put(i+2, 4); // record error location using row & element index
+                            bookErrorTracker.put(i + 2, 4); // record error location using row & element index
                         }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        showCriticalError(String.format("CSV file contains invalid data at row %s", i));
+                    } catch (NumberFormatException e) {
+                        showCriticalError(String.format("CSV file contains invalid data at row %s", i));
                     } catch (Exception e) {
                         showCriticalError(e.toString());
                     }
@@ -104,6 +104,10 @@ public class DataExtractor {
                             }
                             whileCounterTracker++;
                         }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        showCriticalError(String.format("CSV file contains invalid data at row %s", i));
+                    } catch (NumberFormatException e) {
+                        showCriticalError(String.format("CSV file contains invalid data at row %s", i));
                     } catch (Exception e) {
                         showCriticalError(e.toString());
                     }
