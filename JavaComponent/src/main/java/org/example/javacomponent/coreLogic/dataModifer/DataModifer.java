@@ -10,13 +10,13 @@ public class DataModifer {
 
         switch (fileName) {
             case "book.csv":
-                new BookModifer().modify(inputValue, fileName, bookErrorArrayLst, bookCounter);
+                new BookModifier().modify(inputValue, fileName, bookErrorArrayLst, bookCounter);
                 break;
-            case "students.csv":
-                new StudentModifer().modify(inputValue, fileName, studentErrorArrayLst, studentCouter);
+            case "student.csv":
+                new StudentModifier().modify(inputValue, fileName, studentErrorArrayLst, studentCouter);
                 break;
             case "transactions.csv":
-                new BookModifer().modify(inputValue, fileName, bookErrorArrayLst, bookCounter);
+                new TransactionsModifer().modify(inputValue, fileName, transactionsErrorArrayLst, transactionsCounter);
                 break;
         }
     }

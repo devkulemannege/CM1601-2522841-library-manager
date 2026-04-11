@@ -2,16 +2,14 @@ package org.example.javacomponent.coreLogic.dataModifer;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import javafx.scene.control.Alert;
 import org.example.javacomponent.AppVariables;
 import org.example.javacomponent.coreLogic.Alerts;
 
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.Arrays;
 import java.util.List;
 
-public class BookModifer {
+public class BookModifier {
     protected void modify(String inputValue, String fileName, List errorArrayList, int counter){
         String[] splitPairs = errorArrayList.get(counter).toString().split("="); // split key and value into an Array
         int rowIndex = Integer.parseInt(splitPairs[0]) - 1;
@@ -27,7 +25,7 @@ public class BookModifer {
                 if (i == rowIndex){
                     if (elementIndex == 1){ // replace ISBN
                         csvData.get(rowIndex)[elementIndex] = inputValue;
-                        break; // stop method and return to prevent error from split attempt
+                        break; // stop loop and return to prevent error from split attempt
                     }
 
                     String[] splitInputValue = inputValue.split(" ");

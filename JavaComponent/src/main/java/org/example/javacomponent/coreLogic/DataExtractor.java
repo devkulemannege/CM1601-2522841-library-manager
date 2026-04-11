@@ -91,7 +91,6 @@ public class DataExtractor {
                             }
                             if (duplicateCounter == 2) {
                                 studentErrorTracker.put(whileCounterTracker+2, "duplicate"); // record student ID error type and row
-                                break;
                             }
                             whileCounterTracker++;
                         }
@@ -118,7 +117,7 @@ public class DataExtractor {
                         if (!(0 < month && month < 13)) {
                             transactionsErrorTracker.put(i+2, "month");
                         }
-                        if (!(1999 < year)) {
+                        if (!(1999 < year && Integer.toString(year).length()<5)) {
                             transactionsErrorTracker.put(i+2, "year");
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {

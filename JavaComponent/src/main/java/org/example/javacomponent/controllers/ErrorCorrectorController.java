@@ -2,7 +2,6 @@ package org.example.javacomponent.controllers;
 
 import com.opencsv.CSVReader;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -76,7 +75,8 @@ public class ErrorCorrectorController {
 
             for (String[] row : csvData) {
                 if (loopCounter+2 == key){ // add 2 since first row is removed and counter starts from 0
-                    reader.close(); // close CSVreader
+                    reader.close(); // close CSVReader
+
                     return row;
                 }
                 loopCounter++;
@@ -125,10 +125,6 @@ public class ErrorCorrectorController {
         // display resolved errors against num of errors remaining
         errorCounter.setText(String.format("%s/%s", resolvedErrorCount, totalErrorCount));
 
-//        for (Map.Entry<Integer, Integer> tworow : bookErrorArrayLst){
-//            System.out.println(tworow.getKey());
-//        }
-
         // BOOK.CSV ================= check if no errors or all errors resolved
         if (!(bookErrorArrayLst.isEmpty() || bookCounter == bookErrorArrayLst.size())){
             bookCounter++;
@@ -168,10 +164,39 @@ public class ErrorCorrectorController {
             String rowString = Arrays.toString(row);
             rowLabel.setText(rowString.substring(1, rowString.length()-1)); // remove [ & ] from array formatting
 
+            inputFormat.setText("ID must be unique, consisting of eight digits.");
+
             if (type.equals("invalid")){
                 rowValueLabel.setText(String.format("Invalid -> %s", row[0]));
             } else {
                 rowValueLabel.setText(String.format("Duplicate -> %s", row[0]));
+            }
+        }
+        // TRANSACTIONS.CSV ================= check if no errors or all errors resolved
+        else if (!(transactionsErrorArrayLst.isEmpty() || transactionsCounter == transactionsErrorArrayLst.size())){
+            transactionsCounter++;
+
+            // split key and value into an Array
+            String[] splitPairs = transactionsErrorArrayLst.get(transactionsCounter-1).toString().split("=");
+            int key = Integer.parseInt(splitPairs[0]); // convert to int
+            String type = splitPairs[1];
+
+            fileName.setText("transactions.csv");
+
+            String[] row = getRowFromCsv("transactions.csv", key); // find row using method
+            String rowString = Arrays.toString(row);
+            rowLabel.setText(rowString.substring(1, rowString.length()-1)); // remove [ & ] from array formatting
+
+            inputFormat.setText("Must follow DD/MM/YYYY format with forward-slashes.");
+
+            if (type.equals("day")){
+                rowValueLabel.setText(String.format("\"date\" is incorrect -> %s", row[0]));
+            } else if (type.equals("month")){
+                rowValueLabel.setText(String.format("\"month\" is incorrect -> %s", row[0]));
+            } else if (type.equals("year")){
+                rowValueLabel.setText(String.format("\"year\" is incorrect -> %s", row[0]));
+            } else if (type.equals("invalid")){
+                rowValueLabel.setText(String.format("Format is incorrect -> %s", row[0]));
             }
         }
     }
