@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.javacomponent.AppVariables;
+import org.example.javacomponent.coreLogic.Alerts;
 import org.example.javacomponent.coreLogic.dataModifer.DataModifer;
 import org.example.javacomponent.coreLogic.inputValidation.InputValidator;
 
@@ -65,25 +66,6 @@ public class ErrorCorrectorController {
         /* initialize but does not do anything. Used to get the root*/
     }
 
-    void showCriticalError(String msg) {
-        /* reusable method to show error box */
-        Alert alert = new Alert(Alert.AlertType.ERROR); // show an error box if files not found
-        alert.setHeaderText("An error occurred trying to read CSV file as a Subprocess.");
-        alert.setContentText(msg); // show error information
-        alert.setResizable(true);
-        alert.showAndWait();
-        System.exit(0); // close after critical error
-    }
-
-    void incorrectTextInput(){
-        /* reusable method to show error box */
-        Alert alert = new Alert(Alert.AlertType.WARNING); // show an error box if files not found
-        alert.setHeaderText(null);
-        alert.setContentText("Please enter the corrected value in appropriate format!");
-        alert.showAndWait();
-    }
-
-
     private String[] getRowFromCsv(String fileName, int key){
         /* find and return the row from book.csv */
         int loopCounter = 0; // counter for the for loop
@@ -100,9 +82,9 @@ public class ErrorCorrectorController {
                 loopCounter++;
             }
         } catch (FileNotFoundException e){
-            showCriticalError("Missing CSV Files"); // handle if file doesn't exist
+            Alerts.showCriticalError("Missing CSV Files"); // handle if file doesn't exist
         } catch (Exception e) {
-            showCriticalError(e.toString()); // handle error if critical error arises
+            Alerts.showCriticalError(e.toString()); // handle error if critical error arises
         }
         return(new String[0]); // return empty array
     }
@@ -129,7 +111,7 @@ public class ErrorCorrectorController {
             );
             iterateThroughErrors(); // continue to next error
         } else {
-            incorrectTextInput();
+            Alerts.incorrectTextInput();
         }
     }
 
@@ -162,11 +144,12 @@ public class ErrorCorrectorController {
             String rowString = Arrays.toString(row);
             rowLabel.setText(rowString.substring(1, rowString.length()-1)); // remove [ & ] from array formatting
 
-            // if error is in copies or availability
+            // if error is in copies/availability or isbn
             if (value == 3 || value == 4){
                 inputFormat.setText("Enter copies and available (space-separated) eg: 2 1");
                 rowValueLabel.setText(String.format("Copies: %s, Available Copies: %s", row[3], row[4]));
             } else {
+                inputFormat.setText("Adhere to ISBN-13 format");
                 rowValueLabel.setText(row[value]); // show value with error within row
             }
         }

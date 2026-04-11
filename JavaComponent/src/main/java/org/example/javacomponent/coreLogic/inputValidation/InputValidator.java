@@ -14,11 +14,11 @@ public class InputValidator {
             case "book.csv":
                 result = new BookValidator().validate(inputValue, bookErrorArrayLst, bookCounter);
                 break;
-            case "students.csv":
-                result = new StudentValidator().validate(inputValue, bookErrorArrayLst, bookCounter);
+            case "student.csv":
+                result = new StudentValidator().validate(inputValue, studentErrorArrayLst, studentCouter);
                 break;
             case "transactions.csv":
-                result = new TransactionsValidator().validate(inputValue, bookErrorArrayLst, bookCounter);
+                result = new TransactionsValidator().validate(inputValue, transactionsErrorArrayLst, transactionsCounter);
                 break;
         }
         return result;

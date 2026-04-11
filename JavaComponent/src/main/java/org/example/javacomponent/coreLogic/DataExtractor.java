@@ -28,16 +28,6 @@ public class DataExtractor {
         return transactionsErrorTracker;
     }
 
-    void showCriticalError(String msg) {
-        /* reusable method to show error box */
-        Alert alert = new Alert(Alert.AlertType.ERROR); // show an error box if files not found
-        alert.setHeaderText("An error occurred trying to read CSV file.");
-        alert.setContentText(msg); // show error information
-        alert.setResizable(true);
-        alert.showAndWait();
-        System.exit(0); // close after critical error
-    }
-
     public void mainProcess() {
         String[] fileNames = {"book.csv","student.csv","transactions.csv"};
 
@@ -51,9 +41,9 @@ public class DataExtractor {
                 csvData = reader.readAll();
                 csvData.removeFirst(); // remove column headers
             } catch (FileNotFoundException e) {
-                showCriticalError("Missing CSV Files.");
+                Alerts.showCriticalError("Missing CSV Files.");
             } catch (Exception e) {
-                showCriticalError(e.toString());
+                Alerts.showCriticalError(e.toString());
             }
 
             // loop through elements on of individual rows
@@ -75,11 +65,11 @@ public class DataExtractor {
                             bookErrorTracker.put(i + 2, 4); // record error location using row & element index
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        showCriticalError(String.format("CSV file contains invalid data at row %s", i));
+                        Alerts.showCriticalError(String.format("CSV file contains invalid data at row %s", i));
                     } catch (NumberFormatException e) {
-                        showCriticalError(String.format("CSV file contains invalid data at row %s", i));
+                        Alerts.showCriticalError(String.format("CSV file contains invalid data at row %s", i));
                     } catch (Exception e) {
-                        showCriticalError(e.toString());
+                        Alerts.showCriticalError(e.toString());
                     }
 
                 } else if (fileName.equals("student.csv")) {
@@ -106,11 +96,11 @@ public class DataExtractor {
                             whileCounterTracker++;
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        showCriticalError(String.format("CSV file contains invalid data at row %s", i));
+                        Alerts.showCriticalError(String.format("CSV file contains invalid data at row %s", i));
                     } catch (NumberFormatException e) {
-                        showCriticalError(String.format("CSV file contains invalid data at row %s", i));
+                        Alerts.showCriticalError(String.format("CSV file contains invalid data at row %s", i));
                     } catch (Exception e) {
-                        showCriticalError(e.toString());
+                        Alerts.showCriticalError(e.toString());
                     }
 
                 } else if (fileName.equals("transactions.csv")) {
@@ -137,7 +127,7 @@ public class DataExtractor {
                     } catch (NumberFormatException e) {
                         transactionsErrorTracker.put(i+2, "invalid");
                     } catch (Exception e) {
-                        showCriticalError(e.toString());
+                        Alerts.showCriticalError(e.toString());
                     }
                 }
             }
