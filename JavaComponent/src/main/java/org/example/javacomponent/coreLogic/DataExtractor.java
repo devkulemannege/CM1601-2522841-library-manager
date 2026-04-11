@@ -5,6 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.Region;
 import org.example.javacomponent.AppVariables;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -49,8 +50,8 @@ public class DataExtractor {
                 CSVReader reader = new CSVReader(new FileReader(String.format("%s\\%s", AppVariables.getDirectory(), fileName)));
                 csvData = reader.readAll();
                 csvData.removeFirst(); // remove column headers
-            } catch (IOException e) {
-                showCriticalError(e.toString());
+            } catch (FileNotFoundException e) {
+                showCriticalError("Missing CSV Files.");
             } catch (Exception e) {
                 showCriticalError(e.toString());
             }

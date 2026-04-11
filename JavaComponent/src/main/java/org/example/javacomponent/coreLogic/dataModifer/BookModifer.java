@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BookModifer {
-    void showCriticalError(String msg) {
+    protected void showCriticalError(String msg) {
         /* reusable method to show error box */
         Alert alert = new Alert(Alert.AlertType.ERROR); // show an error box if files not found
         alert.setHeaderText("An error occurred trying to read CSV file as a Subprocess.");
@@ -22,7 +22,7 @@ public class BookModifer {
     }
 
     protected void modify(String inputValue, String fileName, List errorArrayList, int counter){
-        String[] splitPairs = errorArrayList.get(counter-1).toString().split("="); // split key and value into an Array
+        String[] splitPairs = errorArrayList.get(counter).toString().split("="); // split key and value into an Array
         int rowIndex = Integer.parseInt(splitPairs[0]) - 1;
         int elementIndex = Integer.parseInt(splitPairs[1]);  // get the row AND position of the found error
 
@@ -40,6 +40,7 @@ public class BookModifer {
                     }
 
                     String[] splitInputValue = inputValue.split(" ");
+
                     if (elementIndex == 3){
                         csvData.get(rowIndex)[elementIndex] = splitInputValue[0]; // replace no. of copies
                         break;

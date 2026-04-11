@@ -10,11 +10,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.javacomponent.AppVariables;
 import org.example.javacomponent.coreLogic.dataModifer.DataModifer;
-import org.example.javacomponent.coreLogic.inputValidation.BookValidator;
 import org.example.javacomponent.coreLogic.inputValidation.InputValidator;
-import org.example.javacomponent.coreLogic.inputValidation.StudentValidator;
-import org.example.javacomponent.coreLogic.inputValidation.TransactionsValidator;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
 
@@ -86,11 +84,11 @@ public class ErrorCorrectorController {
     }
 
 
-    private String[] getRowFromBooks(int key, int value){
+    private String[] getRowFromCsv(String fileName, int key){
         /* find and return the row from book.csv */
         int loopCounter = 0; // counter for the for loop
         try {
-            CSVReader reader = new CSVReader(new FileReader(String.format("%s\\%s", AppVariables.getDirectory(), "book.csv")));
+            CSVReader reader = new CSVReader(new FileReader(String.format("%s\\%s", AppVariables.getDirectory(), fileName)));
             List<String[]> csvData = reader.readAll(); // create List interface
             csvData.removeFirst(); // remove column headers
 
@@ -101,19 +99,12 @@ public class ErrorCorrectorController {
                 }
                 loopCounter++;
             }
-
+        } catch (FileNotFoundException e){
+            showCriticalError("Missing CSV Files"); // handle if file doesn't exist
         } catch (Exception e) {
             showCriticalError(e.toString()); // handle error if critical error arises
         }
         return(new String[0]); // return empty array
-    }
-
-    private String getRowFromStudents(){
-        return(""); // todo: make the logic
-    }
-
-    private String getRowFromTransactions(){
-        return(""); // todo: make the logic
     }
 
     @FXML
@@ -128,13 +119,13 @@ public class ErrorCorrectorController {
         // validate the input given by the user
         result = new InputValidator().insertData(inputValue, fileNameValue,
                 bookErrorArrayLst, studentErrorArrayLst, transactionsErrorArrayLst,
-                bookCounter, studentCouter, transactionsCounter);
+                bookCounter-1, studentCouter-1, transactionsCounter-1);
 
         if (result) {
             new DataModifer().insertData(
                     inputValue, fileNameValue,
                     bookErrorArrayLst, studentErrorArrayLst, transactionsErrorArrayLst,
-                    bookCounter, studentCouter, transactionsCounter
+                    bookCounter-1, studentCouter-1, transactionsCounter-1
             );
             iterateThroughErrors(); // continue to next error
         } else {
@@ -152,17 +143,22 @@ public class ErrorCorrectorController {
         // display resolved errors against num of errors remaining
         errorCounter.setText(String.format("%s/%s", resolvedErrorCount, totalErrorCount));
 
-        // check if no errors or all errors resolved
-        if (!(bookErrorArrayLst.isEmpty() && bookCounter == bookErrorArrayLst.size())){
+//        for (Map.Entry<Integer, Integer> tworow : bookErrorArrayLst){
+//            System.out.println(tworow.getKey());
+//        }
+
+        // BOOK.CSV ================= check if no errors or all errors resolved
+        if (!(bookErrorArrayLst.isEmpty() || bookCounter == bookErrorArrayLst.size())){
             bookCounter++;
 
-            String[] splitPairs = bookErrorArrayLst.get(bookCounter-1).toString().split("="); // split key and value into an Array
+            // split key and value into an Array
+            String[] splitPairs = bookErrorArrayLst.get(bookCounter-1).toString().split("=");
             int key = Integer.parseInt(splitPairs[0]); // convert to int
             int value = Integer.parseInt(splitPairs[1]);
 
             fileName.setText("book.csv");
 
-            String[] row = getRowFromBooks(key, value); // find row using method
+            String[] row = getRowFromCsv("book.csv", key); // find row using method
             String rowString = Arrays.toString(row);
             rowLabel.setText(rowString.substring(1, rowString.length()-1)); // remove [ & ] from array formatting
 
@@ -174,6 +170,26 @@ public class ErrorCorrectorController {
                 rowValueLabel.setText(row[value]); // show value with error within row
             }
         }
-        // todo: iteration logic for remaining csv data
+        // STUDENT.CSV ================= check if no errors or all errors resolved
+        else if (!(studentErrorArrayLst.isEmpty() || studentCouter == studentErrorArrayLst.size())){
+            studentCouter++;
+
+            // split key and value into an Array
+            String[] splitPairs = studentErrorArrayLst.get(studentCouter-1).toString().split("=");
+            int key = Integer.parseInt(splitPairs[0]); // convert to int
+            String type = splitPairs[1];
+
+            fileName.setText("student.csv");
+
+            String[] row = getRowFromCsv("student.csv", key); // find row using method
+            String rowString = Arrays.toString(row);
+            rowLabel.setText(rowString.substring(1, rowString.length()-1)); // remove [ & ] from array formatting
+
+            if (type.equals("invalid")){
+                rowValueLabel.setText(String.format("Invalid -> %s", row[0]));
+            } else {
+                rowValueLabel.setText(String.format("Duplicate -> %s", row[0]));
+            }
+        }
     }
 }

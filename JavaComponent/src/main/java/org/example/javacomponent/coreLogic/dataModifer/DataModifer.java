@@ -13,7 +13,7 @@ public class DataModifer {
                 new BookModifer().modify(inputValue, fileName, bookErrorArrayLst, bookCounter);
                 break;
             case "students.csv":
-                new BookModifer().modify(inputValue, fileName, bookErrorArrayLst, bookCounter);
+                new StudentModifer().modify(inputValue, fileName, studentErrorArrayLst, studentCouter);
                 break;
             case "transactions.csv":
                 new BookModifer().modify(inputValue, fileName, bookErrorArrayLst, bookCounter);
