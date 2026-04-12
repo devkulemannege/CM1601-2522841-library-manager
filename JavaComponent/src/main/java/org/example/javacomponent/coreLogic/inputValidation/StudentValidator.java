@@ -1,12 +1,10 @@
-package org.example.javacomponent.coreLogic.inputValidation;
+package org.example.javacomponent.corelogic.inputvalidation;
 
 import com.opencsv.CSVReader;
-import com.opencsv.bean.CsvDate;
 import org.example.javacomponent.AppVariables;
-import org.example.javacomponent.coreLogic.Alerts;
+import org.example.javacomponent.corelogic.Alerts;
 
 import java.io.FileReader;
-import java.util.Arrays;
 import java.util.List;
 
 public class StudentValidator {

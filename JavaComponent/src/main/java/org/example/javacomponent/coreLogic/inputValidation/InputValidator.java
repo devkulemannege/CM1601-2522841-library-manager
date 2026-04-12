@@ -1,4 +1,4 @@
-package org.example.javacomponent.coreLogic.inputValidation;
+package org.example.javacomponent.corelogic.inputvalidation;
 
 import java.util.List;
 

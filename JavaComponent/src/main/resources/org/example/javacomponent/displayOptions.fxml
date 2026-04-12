@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.javacomponent.controllers.DisplayOptionsController">
+   <children>
+      <Text layoutX="127.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Data Category to View">
+         <font>
+            <Font name="Segoe UI Bold" size="18.0" />
+         </font>
+      </Text>
+      <Button fx:id="bookOption" layoutX="163.0" layoutY="101.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Book Data" />
+      <Line endX="345.6000061035156" endY="181.09999084472656" layoutX="-1.0" layoutY="-14.0" startX="154.39999389648438" startY="181.09999084472656" stroke="#0000002b" translateY="7.0" />
+      <Text layoutX="163.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File: book.csv" />
+      <Text layoutX="163.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rows: " />
+      <Text layoutX="250.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Columns: " />
+      <Label fx:id="bookRow" layoutX="198.0" layoutY="151.0" text="Label" />
+      <Label fx:id="bookCol" layoutX="302.0" layoutY="151.0" text="Label" />
+      <Button fx:id="studentOption" layoutX="163.0" layoutY="187.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Student Data" />
+      <Line endX="345.6000061035156" endY="181.09999084472656" layoutX="-2.0" layoutY="82.0" startX="154.39999389648438" startY="181.09999084472656" stroke="#0000002b" translateY="-2.0" />
+      <Text layoutX="163.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File: student.csv" />
+      <Text layoutX="163.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rows: " />
+      <Text layoutX="250.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Columns: " />
+      <Label fx:id="studentRow" layoutX="198.0" layoutY="237.0" text="Label" />
+      <Label fx:id="studentCol" layoutX="302.0" layoutY="237.0" text="Label" />
+      <Button fx:id="transactionsOption" layoutX="162.0" layoutY="272.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Transaction Data" />
+      <Text layoutX="162.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File: transactions.csv" />
+      <Text layoutX="162.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rows: " />
+      <Text layoutX="249.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Columns: " />
+      <Label fx:id="transactionRow" layoutX="197.0" layoutY="322.0" text="Label" />
+      <Label fx:id="transactionCol" layoutX="301.0" layoutY="322.0" text="Label" />
+   </children>
+</AnchorPane>

@@ -1,4 +1,4 @@
-package org.example.javacomponent.coreLogic;
+package org.example.javacomponent.corelogic;
 
 import javafx.scene.control.Alert;
 

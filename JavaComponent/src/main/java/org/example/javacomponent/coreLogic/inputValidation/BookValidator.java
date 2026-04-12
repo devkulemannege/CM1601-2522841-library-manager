@@ -1,6 +1,6 @@
-package org.example.javacomponent.coreLogic.inputValidation;
+package org.example.javacomponent.corelogic.inputvalidation;
 
-import org.example.javacomponent.coreLogic.IsbnFormat;
+import org.example.javacomponent.corelogic.IsbnFormat;
 
 import java.util.List;
 

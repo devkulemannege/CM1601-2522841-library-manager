@@ -9,8 +9,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.javacomponent.controllers.DisplayOptionsController;
 import org.example.javacomponent.controllers.ErrorCorrectorController;
 import org.example.javacomponent.controllers.ProgressSceneController;
+import org.example.javacomponent.corelogic.Alerts;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -18,8 +20,6 @@ import java.util.HashMap;
 public class SceneInitializer extends Application {
     @Override
     public void start(Stage PrimaryStage) throws IOException {
-        //FXMLLoader fxmlLoader = new FXMLLoader(SceneInitializer.class.getResource("startingStage.fxml"));
-
         Parent root = FXMLLoader.load(getClass().getResource("startingStage.fxml"));
         PrimaryStage.setTitle("Library Data Viewer");
         PrimaryStage.setScene(new Scene(root, 400, 300));
@@ -27,28 +27,32 @@ public class SceneInitializer extends Application {
         PrimaryStage.show();
     }
 
-    public void progressScene(ActionEvent actionEvent) throws Exception{
+    public void progressScene(ActionEvent actionEvent) {
         /* create new stage for the progress when analyzing csv files */
-        FXMLLoader sceneLoader = new FXMLLoader(getClass().getResource("csvAnalyzingProgress.fxml"));
-        Parent root = (Parent)sceneLoader.load(); // run initialize() method in controller
+        try {
+            FXMLLoader sceneLoader = new FXMLLoader(getClass().getResource("csvAnalyzingProgress.fxml"));
+            Parent root = (Parent)sceneLoader.load(); // run initialize() method in controller
 
-        // fetch the controller's class and assign directory String to class variable
-        ProgressSceneController controller = sceneLoader.<ProgressSceneController>getController();
+            // fetch the controller's class and assign directory String to class variable
+            ProgressSceneController controller = sceneLoader.<ProgressSceneController>getController();
 
-        Stage progressStage = new Stage();
-        controller.setProgressStage(progressStage);
-        controller.setVariables();
+            Stage progressStage = new Stage();
+            controller.setProgressStage(progressStage);
+            controller.setVariables();
 
-        progressStage.setScene(new Scene(root, 400, 100));
-        progressStage.setTitle("Analyzing CSV Files");
-        progressStage.setResizable(false);
-        progressStage.show();
+            progressStage.setScene(new Scene(root, 400, 100));
+            progressStage.setTitle("Analyzing CSV Files");
+            progressStage.setResizable(false);
+            progressStage.show();
 
-        controller.startCorrector(); // proceed to next scene
+            controller.startCorrector(); // proceed to next scene
 
-        // identify actionEvent source and close previous scene
-        Stage prevStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        prevStage.close();
+            // identify actionEvent source and close previous scene
+            Stage prevStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            prevStage.close();
+        } catch (Exception e) {
+            Alerts.showCriticalError(e.toString());
+        }
     }
 
     public void correctorScene(
@@ -56,25 +60,53 @@ public class SceneInitializer extends Application {
             HashMap<Integer, Integer> bookErrorTracker,
             HashMap<Integer, String> studentErrorTracker,
             HashMap<Integer, String> transactionsErrorTracker
-    ) throws Exception {
+    ) {
         /* create new stage for the progress when correcting csv format errors */
-        FXMLLoader sceneLoader = new FXMLLoader(getClass().getResource("errorCorrector.fxml"));
-        Parent root = (Parent)sceneLoader.load(); // run initialize() method in controller
+        try {
+            FXMLLoader sceneLoader = new FXMLLoader(getClass().getResource("errorCorrector.fxml"));
+            Parent root = (Parent)sceneLoader.load(); // run initialize() method in controller
 
-        // fetch the controller's class and assign directory String to class variable
-        ErrorCorrectorController controller = sceneLoader.getController();
+            // fetch the controller's class
+            ErrorCorrectorController controller = sceneLoader.getController();
 
-        Stage correctorStage = new Stage();
-        controller.setMaps(bookErrorTracker, studentErrorTracker, transactionsErrorTracker);
-        controller.setCorrectorStage(correctorStage);
-        controller.iterateThroughErrors(); // start main process
+            Stage correctorStage = new Stage();
+            controller.setMaps(bookErrorTracker, studentErrorTracker, transactionsErrorTracker);
+            controller.setCorrectorStage(correctorStage);
+            controller.iterateThroughErrors(); // start main process
 
-        correctorStage.setScene(new Scene(root, 700, 250));
-        correctorStage.setTitle("Library Data Viewer");
-        correctorStage.setResizable(false);
-        correctorStage.show();
+            correctorStage.setScene(new Scene(root, 700, 250));
+            correctorStage.setTitle("Library Data Viewer");
+            correctorStage.setResizable(false);
+            correctorStage.show();
 
-        // close the progress scene
-        progressStage.close();
+            // close the progress scene
+            progressStage.close();
+        } catch (Exception e) {
+            Alerts.showCriticalError(e.toString());
+        }
+    }
+
+    public void optionsScene(Stage previousStage) {
+        /* create new stage for the progress when correcting csv format errors */
+        try {
+            FXMLLoader sceneLoader = new FXMLLoader(getClass().getResource("displayOptions.fxml"));
+            Parent root = (Parent)sceneLoader.load(); // run initialize() method in controller
+
+            // fetch the controller's class and assign directory String to class variable
+            DisplayOptionsController controller = sceneLoader.getController();
+
+            Stage optionsStage = new Stage();
+            controller.setDisplayOptionsStage(optionsStage);
+
+            optionsStage.setScene(new Scene(root, 500, 400));
+            optionsStage.setTitle("Library Data Viewer");
+            optionsStage.setResizable(false);
+            optionsStage.show();
+
+            // close the progress scene
+            previousStage.close();
+        } catch (Exception e) {
+            Alerts.showCriticalError(e.toString());
+        }
     }
 }

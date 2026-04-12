@@ -1,9 +1,9 @@
-package org.example.javacomponent.coreLogic.dataModifer;
+package org.example.javacomponent.corelogic.datamodifer;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import org.example.javacomponent.AppVariables;
-import org.example.javacomponent.coreLogic.Alerts;
+import org.example.javacomponent.corelogic.Alerts;
 
 import java.io.FileReader;
 import java.io.FileWriter;

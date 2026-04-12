@@ -1,13 +1,15 @@
 package org.example.javacomponent.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import org.example.javacomponent.AppVariables;
 import org.example.javacomponent.SceneInitializer;
-import org.example.javacomponent.coreLogic.DataExtractor;
+import org.example.javacomponent.corelogic.Alerts;
+import org.example.javacomponent.corelogic.DataExtractor;
 
 import java.util.HashMap;
 
@@ -32,7 +34,7 @@ public class ProgressSceneController {
         progressBar.setProgress(progressBar.INDETERMINATE_PROGRESS); // change to intermediate type progress bar
     }
 
-    public void setVariables() throws Exception {
+    public void setVariables() {
         /* acts as a setter and a "jump-started" for the main csv analysis process */
         statusUpdate.setText(String.format("Analyzing: %s", AppVariables.getDirectory()));
 
@@ -45,14 +47,23 @@ public class ProgressSceneController {
         this.transactionsErrorTracker = extractor.getTransactionsErrorTracker();
     }
 
-    public void startCorrector() throws Exception {
+    public void startCorrector() {
         // start scene for format correction
-        if (bookErrorTracker.isEmpty() && studentErrorTracker.isEmpty() && transactionsErrorTracker.isEmpty()) {
-            System.out.println("No book, student and transactions errors were found");
-            // todo: create logic to skip correction
-        } else {
-            SceneInitializer startScene = new SceneInitializer();
-            startScene.correctorScene(progressStage, bookErrorTracker, studentErrorTracker, transactionsErrorTracker);
+        try {
+            if (bookErrorTracker.isEmpty() && studentErrorTracker.isEmpty() && transactionsErrorTracker.isEmpty()) {
+                System.out.println("No book, student and transactions errors were found");
+
+                new SceneInitializer().optionsScene(progressStage); // skip error correction and show data view options
+            } else {
+                new SceneInitializer().correctorScene( // start ErrorCorrector scene for csv data correction
+                        progressStage,
+                        bookErrorTracker,
+                        studentErrorTracker,
+                        transactionsErrorTracker
+                );
+            }
+        } catch (Exception e) {
+            Alerts.showCriticalError(e.toString());
         }
     }
 }

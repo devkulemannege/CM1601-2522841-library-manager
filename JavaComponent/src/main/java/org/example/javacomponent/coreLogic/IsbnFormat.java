@@ -1,4 +1,4 @@
-package org.example.javacomponent.coreLogic;
+package org.example.javacomponent.corelogic;
 
 public class IsbnFormat {
     public static boolean validate(String isbn){

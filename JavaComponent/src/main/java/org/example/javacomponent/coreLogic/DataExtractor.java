@@ -1,13 +1,10 @@
-package org.example.javacomponent.coreLogic;
+package org.example.javacomponent.corelogic;
 
 import com.opencsv.CSVReader;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.Region;
 import org.example.javacomponent.AppVariables;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 public class DataExtractor {

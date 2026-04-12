@@ -8,9 +8,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.javacomponent.AppVariables;
-import org.example.javacomponent.coreLogic.Alerts;
-import org.example.javacomponent.coreLogic.dataModifer.DataModifer;
-import org.example.javacomponent.coreLogic.inputValidation.InputValidator;
+import org.example.javacomponent.SceneInitializer;
+import org.example.javacomponent.corelogic.Alerts;
+import org.example.javacomponent.corelogic.datamodifer.DataModifer;
+import org.example.javacomponent.corelogic.inputvalidation.InputValidator;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -124,6 +125,15 @@ public class ErrorCorrectorController {
 
         // display resolved errors against num of errors remaining
         errorCounter.setText(String.format("%s/%s", resolvedErrorCount, totalErrorCount));
+
+        // if all errors resolved, display options menu
+        if (resolvedErrorCount == totalErrorCount){
+            try {
+                new SceneInitializer().optionsScene(correctorStage);
+            } catch (Exception e) {
+                Alerts.showCriticalError(e.toString());
+            }
+        }
 
         // BOOK.CSV ================= check if no errors or all errors resolved
         if (!(bookErrorArrayLst.isEmpty() || bookCounter == bookErrorArrayLst.size())){

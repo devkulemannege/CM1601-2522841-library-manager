@@ -1,4 +1,4 @@
-package org.example.javacomponent.coreLogic.dataModifer;
+package org.example.javacomponent.corelogic.datamodifer;
 
 import java.util.List;
 
