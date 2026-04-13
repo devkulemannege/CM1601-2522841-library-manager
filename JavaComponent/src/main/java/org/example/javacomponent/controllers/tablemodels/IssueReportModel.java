@@ -1,4 +1,4 @@
-package org.example.javacomponent.controllers;
+package org.example.javacomponent.controllers.tablemodels;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

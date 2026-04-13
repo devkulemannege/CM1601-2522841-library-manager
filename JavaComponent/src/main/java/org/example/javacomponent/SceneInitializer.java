@@ -10,10 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
-import org.example.javacomponent.controllers.BookIssueReportController;
-import org.example.javacomponent.controllers.DisplayOptionsController;
-import org.example.javacomponent.controllers.ErrorCorrectorController;
-import org.example.javacomponent.controllers.ProgressSceneController;
+import org.example.javacomponent.controllers.*;
 import org.example.javacomponent.corelogic.Alerts;
 
 import java.io.IOException;
@@ -89,7 +86,7 @@ public class SceneInitializer extends Application {
     }
 
     public void optionsScene(Stage previousStage) {
-        /* create new stage for the progress when correcting csv format errors */
+        /* create new stage for the optionsScene when correcting csv format errors */
         try {
             FXMLLoader sceneLoader = new FXMLLoader(getClass().getResource("displayOptions.fxml"));
             Parent root = (Parent)sceneLoader.load(); // run initialize() method in controller
@@ -111,8 +108,9 @@ public class SceneInitializer extends Application {
             Alerts.showCriticalJavafxError(e.toString());
         }
     }
+
     public void bookIssueReportScene(Stage optionsStage) {
-        /* create new stage for the progress when correcting csv format errors */
+        /* create new stage for the bookIssueReportScene when correcting csv format errors */
         try {
             FXMLLoader sceneLoader = new FXMLLoader(getClass().getResource("bookIssueReport.fxml"));
             Parent root = (Parent)sceneLoader.load(); // run initialize() method in controller
@@ -130,6 +128,30 @@ public class SceneInitializer extends Application {
             bookIssueReportStage.setTitle("Library Data Viewer");
             bookIssueReportStage.setResizable(true);
             bookIssueReportStage.show();
+
+            // close the progress scene
+            optionsStage.close();
+        } catch (Exception e) {;
+            Alerts.showCriticalJavafxError(e.toString());
+        }
+    }
+
+    public void costCalculationScene(Stage optionsStage){
+        /* create new stage for the costCalculationScene when correcting csv format errors */
+        try {
+            FXMLLoader sceneLoader = new FXMLLoader(getClass().getResource("costCalculator.fxml"));
+            Parent root = (Parent)sceneLoader.load(); // run initialize() method in controller
+
+            // fetch the controller's class and assign directory String to class variable
+            CostCalculatorController controller = sceneLoader.getController();
+
+            Stage costCalculatorStage = new Stage();
+            controller.setCostCalculatorStage(costCalculatorStage);
+
+            costCalculatorStage.setScene(new Scene(root, 400, 300));
+            costCalculatorStage.setTitle("Library Data Viewer");
+            costCalculatorStage.setResizable(true);
+            costCalculatorStage.show();
 
             // close the progress scene
             optionsStage.close();

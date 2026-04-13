@@ -19,19 +19,19 @@ public class DisplayOptionsController {
     private Stage displayOptionsStage;
 
     @FXML
-    private Button bookOption;
+    private Button bookIssueOption;
     @FXML
     private Label bookRow;
     @FXML
     private Label bookCol;
     @FXML
-    private Button studentOption;
+    private Button avgCostOption;
     @FXML
     private Label studentRow;
     @FXML
     private Label studentCol;
     @FXML
-    private Button transactionsOption;
+    private Button availabilityOption;
     @FXML
     private Label transactionRow;
     @FXML
@@ -85,6 +85,16 @@ public class DisplayOptionsController {
         /* show book issue report scene if appropriate button is clicked */
         try {
             new SceneInitializer().bookIssueReportScene(displayOptionsStage);
+        } catch (Exception e){
+            Alerts.showCriticalJavafxError(e.toString()); // handle error if critical error arises
+        }
+    }
+
+    @FXML
+    protected void avgCostOptionClicked() {
+        /* show average cost calculation scene */
+        try {
+            new SceneInitializer().costCalculationScene(displayOptionsStage);
         } catch (Exception e){
             Alerts.showCriticalJavafxError(e.toString()); // handle error if critical error arises
         }

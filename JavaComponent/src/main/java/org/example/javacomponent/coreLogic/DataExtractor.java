@@ -37,7 +37,7 @@ public class DataExtractor {
                 CSVReader reader = new CSVReader(new FileReader(String.format("%s\\%s", AppVariables.getDirectory(), fileName)));
                 csvData = reader.readAll();
                 csvData.removeFirst(); // remove column headers
-            } catch (FileNotFoundException e) {
+            } catch (FileNotFoundException | NoSuchElementException e) {
                 Alerts.showCriticalError("Missing CSV Files.");
             } catch (Exception e) {
                 Alerts.showCriticalError(e.toString());

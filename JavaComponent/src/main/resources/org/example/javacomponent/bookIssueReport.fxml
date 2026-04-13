@@ -24,13 +24,18 @@
       <Text layoutX="204.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" />
       <TextField fx:id="yearInput" layoutX="237.0" layoutY="73.0" prefHeight="26.0" prefWidth="86.0" />
       <Button fx:id="generateReport" layoutX="657.0" layoutY="73.0" mnemonicParsing="false" onAction="#generateReport" prefHeight="26.0" prefWidth="118.0" text="Generate" />
-      <Line endX="782.4000244140625" endY="115.5" startX="16.299999237060547" startY="115.5" stroke="#0000002b" translateY="5.0" />
-       <TableView fx:id="table" layoutX="23.0" layoutY="131.0" prefHeight="460.0" prefWidth="748.0">
+      <Line endX="782.4000244140625" endY="115.5" layoutX="-3.0" layoutY="-10.0" startX="16.299999237060547" startY="115.5" stroke="#0000002b" translateY="5.0" />
+       <TableView fx:id="table" layoutX="13.0" layoutY="146.0" prefHeight="446.0" prefWidth="767.0">
            <columns>
                <TableColumn prefWidth="374.4000244140625" text="Book ID" />
                <TableColumn minWidth="0.0" prefWidth="372.79998779296875" text="Student ID" />
            </columns>
        </TableView>
-      <Button fx:id="backBtn" layoutX="656.0" layoutY="11.0" mnemonicParsing="false" onAction="#backBtnOnAction" prefHeight="26.0" prefWidth="118.0" text="Previous Menu" />
+      <Button fx:id="backBtn" layoutX="657.0" layoutY="22.0" mnemonicParsing="false" onAction="#backBtnOnAction" prefHeight="26.0" prefWidth="118.0" text="Previous Menu" />
+      <Label fx:id="resultLabel" layoutX="11.0" layoutY="119.0" text="Perform a Search to Display Transactions." translateX="5.0">
+         <font>
+            <Font name="Segoe UI" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -7,18 +7,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.example.javacomponent.AppVariables;
 import org.example.javacomponent.SceneInitializer;
+import org.example.javacomponent.controllers.tablemodels.IssueReportModel;
 import org.example.javacomponent.corelogic.Alerts;
 
-import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Arrays;
 import java.util.List;
 
 public class BookIssueReportController {
@@ -38,6 +35,8 @@ public class BookIssueReportController {
     private Button generateReport;
     @FXML
     private Button backBtn;
+    @FXML
+    private Label resultLabel;
     @FXML
     private AnchorPane anchor;
     @FXML
@@ -82,12 +81,20 @@ public class BookIssueReportController {
                 // only iterate if the given date values match
                 if (splitDate[0].equals(day) && splitDate[1].equals(month) && splitDate[2].equals(year)){;
                     if (row[3].equals("1")){
-                        // add row to an observable List
+                        // add row to an observable List if date match and transaction type is 1
                         records.add(new IssueReportModel(row[1], row[2]));
                     }
                 }
             }
             table.setItems(records); // set items of record to the table
+
+            if (records.isEmpty()){
+                resultLabel.setStyle("-fx-font-weight: bold");
+                resultLabel.setText("No Transactions Found.");
+            } else {
+                resultLabel.setStyle("-fx-font-weight: bold");
+                resultLabel.setText(String.format("Total Transactions: %s", records.size()));
+            }
 
         } catch (FileNotFoundException e){
             Alerts.showCriticalError("Missing CSV Files"); // handle if file doesn't exist
