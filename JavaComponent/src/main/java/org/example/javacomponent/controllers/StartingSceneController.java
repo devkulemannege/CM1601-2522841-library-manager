@@ -51,7 +51,7 @@ public class StartingSceneController {
     }
 
     @FXML
-    protected void startButtonClick(ActionEvent actionEvent) throws Exception{
+    protected void startButtonClick(ActionEvent actionEvent) {
         /* check is all csv files exists before proceeding. Or else show error */
         if (!(customDirGiven)) {setDirectory("C:\\LibraryData");}
 

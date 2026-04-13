@@ -8,7 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
+import org.example.javacomponent.controllers.BookIssueReportController;
 import org.example.javacomponent.controllers.DisplayOptionsController;
 import org.example.javacomponent.controllers.ErrorCorrectorController;
 import org.example.javacomponent.controllers.ProgressSceneController;
@@ -51,7 +53,7 @@ public class SceneInitializer extends Application {
             Stage prevStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             prevStage.close();
         } catch (Exception e) {
-            Alerts.showCriticalError(e.toString());
+            Alerts.showCriticalJavafxError(e.toString());
         }
     }
 
@@ -82,7 +84,7 @@ public class SceneInitializer extends Application {
             // close the progress scene
             progressStage.close();
         } catch (Exception e) {
-            Alerts.showCriticalError(e.toString());
+            Alerts.showCriticalJavafxError(e.toString());
         }
     }
 
@@ -106,7 +108,33 @@ public class SceneInitializer extends Application {
             // close the progress scene
             previousStage.close();
         } catch (Exception e) {
-            Alerts.showCriticalError(e.toString());
+            Alerts.showCriticalJavafxError(e.toString());
+        }
+    }
+    public void bookIssueReportScene(Stage optionsStage) {
+        /* create new stage for the progress when correcting csv format errors */
+        try {
+            FXMLLoader sceneLoader = new FXMLLoader(getClass().getResource("bookIssueReport.fxml"));
+            Parent root = (Parent)sceneLoader.load(); // run initialize() method in controller
+
+            ScrollPane sp = new ScrollPane();
+            sp.setContent(root);
+
+            // fetch the controller's class and assign directory String to class variable
+            BookIssueReportController controller = sceneLoader.getController();
+
+            Stage bookIssueReportStage = new Stage();
+            controller.setOptionsStage(bookIssueReportStage);
+
+            bookIssueReportStage.setScene(new Scene(sp, 800, 600));
+            bookIssueReportStage.setTitle("Library Data Viewer");
+            bookIssueReportStage.setResizable(true);
+            bookIssueReportStage.show();
+
+            // close the progress scene
+            optionsStage.close();
+        } catch (Exception e) {;
+            Alerts.showCriticalJavafxError(e.toString());
         }
     }
 }

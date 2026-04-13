@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.example.javacomponent.AppVariables;
+import org.example.javacomponent.SceneInitializer;
 import org.example.javacomponent.corelogic.Alerts;
 
 import java.io.FileReader;
@@ -18,23 +19,23 @@ public class DisplayOptionsController {
     private Stage displayOptionsStage;
 
     @FXML
-    public Button bookOption;
+    private Button bookOption;
     @FXML
-    public Label bookRow;
+    private Label bookRow;
     @FXML
-    public Label bookCol;
+    private Label bookCol;
     @FXML
-    public Button studentOption;
+    private Button studentOption;
     @FXML
-    public Label studentRow;
+    private Label studentRow;
     @FXML
-    public Label studentCol;
+    private Label studentCol;
     @FXML
-    public Button transactionsOption;
+    private Button transactionsOption;
     @FXML
-    public Label transactionRow;
+    private Label transactionRow;
     @FXML
-    public Label transactionCol;
+    private Label transactionCol;
 
     public void setDisplayOptionsStage(Stage displayOptionsStage) {
         this.displayOptionsStage = displayOptionsStage;
@@ -77,5 +78,15 @@ public class DisplayOptionsController {
 
         transactionRow.setText(retreivedTransactionParams[0]);
         transactionCol.setText(retreivedTransactionParams[1]);
+    }
+
+    @FXML
+    protected void bookOptionClicked() {
+        /* show book issue report scene if appropriate button is clicked */
+        try {
+            new SceneInitializer().bookIssueReportScene(displayOptionsStage);
+        } catch (Exception e){
+            Alerts.showCriticalJavafxError(e.toString()); // handle error if critical error arises
+        }
     }
 }

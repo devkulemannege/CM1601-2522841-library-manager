@@ -131,7 +131,7 @@ public class ErrorCorrectorController {
             try {
                 new SceneInitializer().optionsScene(correctorStage);
             } catch (Exception e) {
-                Alerts.showCriticalError(e.toString());
+                Alerts.showCriticalJavafxError(e.toString());
             }
         }
 

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="anchor" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.javacomponent.controllers.BookIssueReportController">
+   <children>
+      <Text layoutX="14.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Day:" />
+      <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Issued Report">
+         <font>
+            <Font name="Segoe UI Bold" size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by Date">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <TextField fx:id="dayInput" layoutX="46.0" layoutY="73.0" prefHeight="26.0" prefWidth="35.0" />
+      <Text layoutX="100.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month:" />
+      <TextField fx:id="monthInput" layoutX="143.0" layoutY="73.0" prefHeight="26.0" prefWidth="35.0" />
+      <Text layoutX="204.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" />
+      <TextField fx:id="yearInput" layoutX="237.0" layoutY="73.0" prefHeight="26.0" prefWidth="86.0" />
+      <Button fx:id="generateReport" layoutX="657.0" layoutY="73.0" mnemonicParsing="false" onAction="#generateReport" prefHeight="26.0" prefWidth="118.0" text="Generate" />
+      <Line endX="782.4000244140625" endY="115.5" startX="16.299999237060547" startY="115.5" stroke="#0000002b" translateY="5.0" />
+       <TableView fx:id="table" layoutX="23.0" layoutY="131.0" prefHeight="460.0" prefWidth="748.0">
+           <columns>
+               <TableColumn prefWidth="374.4000244140625" text="Book ID" />
+               <TableColumn minWidth="0.0" prefWidth="372.79998779296875" text="Student ID" />
+           </columns>
+       </TableView>
+      <Button fx:id="backBtn" layoutX="656.0" layoutY="11.0" mnemonicParsing="false" onAction="#backBtnOnAction" prefHeight="26.0" prefWidth="118.0" text="Previous Menu" />
+   </children>
+</AnchorPane>

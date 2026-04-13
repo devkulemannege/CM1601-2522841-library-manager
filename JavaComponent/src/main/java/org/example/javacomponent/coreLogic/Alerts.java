@@ -13,6 +13,16 @@ public class Alerts {
         System.exit(0); // close after critical error
     }
 
+    public static void showCriticalJavafxError(String msg) {
+        /* reusable method to show error box */
+        Alert alert = new Alert(Alert.AlertType.ERROR); // show an error box if files not found
+        alert.setHeaderText("Navigation Failure: Unable to initialize the requested scene.");
+        alert.setContentText(msg); // show error information
+        alert.setResizable(true);
+        alert.showAndWait();
+        System.exit(0); // close after critical error
+    }
+
     public static void incorrectTextInput(){
         /* reusable method to show error box */
         Alert alert = new Alert(Alert.AlertType.WARNING); // show an error box if files not found

@@ -63,7 +63,7 @@ public class ProgressSceneController {
                 );
             }
         } catch (Exception e) {
-            Alerts.showCriticalError(e.toString());
+            Alerts.showCriticalJavafxError(e.toString());
         }
     }
 }
