@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.javacomponent.controllers.AvailabilityReportController">
+   <children>
+      <TableView fx:id="availabilityTable" layoutX="24.0" layoutY="141.0" prefHeight="437.0" prefWidth="754.0">
+          <columns>
+              <TableColumn prefWidth="124.79998779296875" text="Book ID" />
+              <TableColumn minWidth="0.0" prefWidth="269.60003662109375" text="Book Title" />
+              <TableColumn minWidth="0.0" prefWidth="196.0" text="Copies Available" />
+              <TableColumn minWidth="0.0" prefWidth="165.5999755859375" text="Current Borrower" />
+          </columns>
+      </TableView>
+      <Text layoutX="24.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Availability Report">
+         <font>
+            <Font name="Segoe UI Bold" size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="24.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by Title. Use an asterisk (*) after a keyword to find all titles that begin with that term">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <Button fx:id="searchBtn" layoutX="426.0" layoutY="83.0" mnemonicParsing="false" onAction="#generateReport" prefHeight="26.0" prefWidth="118.0" text="Search" />
+      <Button fx:id="backBtn" layoutX="659.0" layoutY="33.0" mnemonicParsing="false" onAction="#backBtnClicked" prefHeight="26.0" prefWidth="118.0" text="Previous Menu" />
+      <TextField fx:id="searchBar" layoutX="24.0" layoutY="83.0" prefHeight="26.0" prefWidth="384.0" promptText="Search">
+         <font>
+            <Font name="Segoe UI" size="12.0" />
+         </font>
+      </TextField>
+      <Line endX="784.0" endY="132.3000030517578" layoutX="-1.0" layoutY="-5.0" startX="20.0" startY="132.3000030517578" stroke="#0000002b" />
+      <Button fx:id="exportBtn" layoutX="659.0" layoutY="83.0" mnemonicParsing="false" onAction="#exportBtnClicked" prefHeight="26.0" prefWidth="118.0" text="Export Report" />
+   </children>
+</AnchorPane>

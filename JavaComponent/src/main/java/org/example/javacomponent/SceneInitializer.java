@@ -14,6 +14,7 @@ import org.example.javacomponent.controllers.*;
 import org.example.javacomponent.corelogic.Alerts;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class SceneInitializer extends Application {
@@ -156,6 +157,34 @@ public class SceneInitializer extends Application {
             // close the progress scene
             optionsStage.close();
         } catch (Exception e) {;
+            Alerts.showCriticalJavafxError(e.toString());
+        }
+    }
+
+    public void availablityReportScene(Stage optionsStage){
+        /* create new stage for the availablityReportScene when correcting csv format errors */
+        try {
+            FXMLLoader sceneLoader = new FXMLLoader(getClass().getResource("availabilityReport.fxml"));
+            Parent root = (Parent)sceneLoader.load(); // run initialize() method in controller
+
+            ScrollPane sp = new ScrollPane();
+            sp.setContent(root);
+
+            // fetch the controller's class and assign directory String to class variable
+            AvailabilityReportController controller = sceneLoader.getController();
+
+            Stage availablityReportStage = new Stage();
+            controller.setAvailabilityReportStage(availablityReportStage);
+
+            availablityReportStage.setScene(new Scene(sp, 800, 600));
+            availablityReportStage.setTitle("Library Data Viewer");
+            availablityReportStage.setResizable(true);
+            availablityReportStage.show();
+
+            // close the progress scene
+            optionsStage.close();
+        } catch (Exception e) {;
+            System.out.println(Arrays.toString(e.getStackTrace()));
             Alerts.showCriticalJavafxError(e.toString());
         }
     }

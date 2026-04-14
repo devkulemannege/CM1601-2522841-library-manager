@@ -39,4 +39,12 @@ public class Alerts {
         alert.showAndWait();
     }
 
+    public static void exportError(){
+        /* reusable method to show error box */
+        Alert alert = new Alert(Alert.AlertType.WARNING); // show an error box if files not found
+        alert.setHeaderText(null);
+        alert.setContentText("Unable to export Availability Report.");
+        alert.showAndWait();
+    }
+
 }

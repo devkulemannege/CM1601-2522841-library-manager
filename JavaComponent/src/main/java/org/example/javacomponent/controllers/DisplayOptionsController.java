@@ -99,4 +99,14 @@ public class DisplayOptionsController {
             Alerts.showCriticalJavafxError(e.toString()); // handle error if critical error arises
         }
     }
+
+    @FXML
+    protected void availabilityOptionClicked() {
+        /* show book availability table scene */
+        try {
+            new SceneInitializer().availablityReportScene(displayOptionsStage);
+        } catch (Exception e){
+            Alerts.showCriticalJavafxError(e.toString()); // handle error if critical error arises
+        }
+    }
 }

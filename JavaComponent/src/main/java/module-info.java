@@ -12,6 +12,8 @@ module org.example.javacomponent {
     requires com.almasb.fxgl.all;
     requires opencsv;
     requires java.desktop;
+    requires javafx.base;
+    requires annotations;
 
     opens org.example.javacomponent to javafx.fxml;
     exports org.example.javacomponent;
