@@ -54,6 +54,8 @@ public class AvailabilityReportController {
         int issueCount = 0, copiesAvailable = 0;
         String currentBurrower = "";
 
+        availabilityTable.getItems().clear();
+
         try{
             // read csv files for all 3 files
             CSVReader bookReader = new CSVReader(new FileReader(String.format("%s\\%s", AppVariables.getDirectory(), "book.csv")));
@@ -136,7 +138,7 @@ public class AvailabilityReportController {
 
     @FXML
     protected void exportBtnClicked(){
-        Date date = new Date();
+        Date date = new Date(); // get date information using date obj
 
         File file = new File(String.format("%s\\%s", AppVariables.getDirectory(), "AvailabilityReport.txt"));
         try {
@@ -144,6 +146,7 @@ public class AvailabilityReportController {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file)); // initializer bufferedwriter obj
 
             writer.write(String.format("Book Availability Report as of, %s\n\n", date));
+            writer.write("Book ID | Book Title | Copies Available | Current Burrower\n");
 
             for (AvailableReportModel record : records) {
                 writer.write(String.format( // write availability report to text file
@@ -156,9 +159,12 @@ public class AvailabilityReportController {
             }
 
             writer.close();
+
+            Alerts.exportSuccess(); // show export successful confirmation
         } catch (IOException e) {
-            System.out.println(e.toString());
             Alerts.exportError(); // handle error if critical error arises
+        } catch (Exception e){
+            Alerts.showCriticalError(e.toString());
         }
     }
 

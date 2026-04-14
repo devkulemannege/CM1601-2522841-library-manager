@@ -1,6 +1,7 @@
 package org.example.javacomponent.corelogic;
 
 import javafx.scene.control.Alert;
+import org.example.javacomponent.AppVariables;
 
 public class Alerts {
     public static void showCriticalError(String msg) {
@@ -44,6 +45,14 @@ public class Alerts {
         Alert alert = new Alert(Alert.AlertType.WARNING); // show an error box if files not found
         alert.setHeaderText(null);
         alert.setContentText("Unable to export Availability Report.");
+        alert.showAndWait();
+    }
+
+    public static void exportSuccess(){
+        /* reusable method to show information box */
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(String.format("Availability Report Exported Successfully at %s", AppVariables.getDirectory()));
         alert.showAndWait();
     }
 
