@@ -43,11 +43,6 @@ public class ErrorCorrectorController {
         /* get the stage representing the corrector scene */
         this.correctorStage = correctorStage;
     }
-
-    @FXML
-    private AnchorPane anchorPane;
-    @FXML
-    private Button doneButton;
     @FXML
     private Label rowLabel;
     @FXML

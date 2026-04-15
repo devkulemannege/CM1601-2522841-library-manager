@@ -21,7 +21,7 @@ import java.util.List;
 public class BookIssueReportController {
     private Stage bookIssueReportStage;
 
-    public void setOptionsStage(Stage bookIssueReportStage) {
+    public void setBookIssueReportStage(Stage bookIssueReportStage) {
         this.bookIssueReportStage = bookIssueReportStage;
     }
 
@@ -32,13 +32,7 @@ public class BookIssueReportController {
     @FXML
     private TextField yearInput;
     @FXML
-    private Button generateReport;
-    @FXML
-    private Button backBtn;
-    @FXML
     private Label resultLabel;
-    @FXML
-    private AnchorPane anchor;
     @FXML
     private TableView<IssueReportModel> table;
 

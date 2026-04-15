@@ -12,8 +12,8 @@ import org.example.javacomponent.SceneInitializer;
 import java.io.File;
 
 public class StartingSceneController {
-    boolean customDirGiven = false;
-    boolean bookExists = false, studentExists = false, transactionExists= false; // initialize file exist flags
+    private boolean customDirGiven = false;
+    private boolean bookExists = false, studentExists = false, transactionExists= false; // initialize file exist flags
 
     @FXML
     private Button startButton;
@@ -24,13 +24,13 @@ public class StartingSceneController {
     @FXML
     private Label noFileError;
 
-    void setDirectory(String directory) {
+    private void setDirectory(String directory) {
         /* class-exclusive method. Does not follow encapsulation */
         AppVariables.setDirectory(directory);
         pathDisplay.setText(AppVariables.getDirectory()); // update selected directory ui
     }
 
-    void showNoFileError() {
+    private void showNoFileError() {
         /* reusable method to show error box */
         Alert alert = new Alert(Alert.AlertType.ERROR); // show an error box if files not found
         alert.setContentText("CSV files not found in directory.");

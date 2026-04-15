@@ -123,7 +123,7 @@ public class SceneInitializer extends Application {
             BookIssueReportController controller = sceneLoader.getController();
 
             Stage bookIssueReportStage = new Stage();
-            controller.setOptionsStage(bookIssueReportStage);
+            controller.setBookIssueReportStage(bookIssueReportStage);
 
             bookIssueReportStage.setScene(new Scene(sp, 800, 600));
             bookIssueReportStage.setTitle("Library Data Viewer");

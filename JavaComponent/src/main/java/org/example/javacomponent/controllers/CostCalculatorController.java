@@ -23,10 +23,6 @@ public class CostCalculatorController {
     private Label booksCost;
     @FXML
     private Label averageCost;
-    @FXML
-    private Button calculateBtn;
-    @FXML
-    private Button previousBtn;
 
     public void setCostCalculatorStage(Stage costCalculatorStage) {
         this.costCalculatorStage = costCalculatorStage;

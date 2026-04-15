@@ -19,19 +19,13 @@ public class DisplayOptionsController {
     private Stage displayOptionsStage;
 
     @FXML
-    private Button bookIssueOption;
-    @FXML
     private Label bookRow;
     @FXML
     private Label bookCol;
     @FXML
-    private Button avgCostOption;
-    @FXML
     private Label studentRow;
     @FXML
     private Label studentCol;
-    @FXML
-    private Button availabilityOption;
     @FXML
     private Label transactionRow;
     @FXML

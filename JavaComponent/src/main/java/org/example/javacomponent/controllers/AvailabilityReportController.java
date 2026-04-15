@@ -24,12 +24,6 @@ public class AvailabilityReportController {
     @FXML
     private TableView<AvailableReportModel> availabilityTable;
     @FXML
-    private Button searchBtn;
-    @FXML
-    private Button backBtn;
-    @FXML
-    private Button exportBtn;
-    @FXML
     private TextField searchBar;
 
     // collection to hold table data
