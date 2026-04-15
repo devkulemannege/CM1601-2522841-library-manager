@@ -102,7 +102,7 @@ public class AvailabilityReportController {
                             issueCount = 0; // reset the counter every iteration
                             currentBurrower = "--"; // reset the value in variable every iteration
 
-                            for (String[] transRow : transactionCsvData) {
+                            for (String[] transRow : transactionCsvData) { // track how many copies are issued
                                 if (transRow[1].equals(row[0]) && transRow[3].equals("1")) {
                                     issueCount++;
                                 } else if (transRow[1].equals(row[0]) && transRow[3].equals("2")) {

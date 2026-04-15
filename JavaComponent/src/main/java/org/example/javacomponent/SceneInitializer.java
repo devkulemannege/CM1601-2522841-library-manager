@@ -132,7 +132,7 @@ public class SceneInitializer extends Application {
 
             // close the progress scene
             optionsStage.close();
-        } catch (Exception e) {;
+        } catch (Exception e) {
             Alerts.showCriticalJavafxError(e.toString());
         }
     }
@@ -156,7 +156,7 @@ public class SceneInitializer extends Application {
 
             // close the progress scene
             optionsStage.close();
-        } catch (Exception e) {;
+        } catch (Exception e) {
             Alerts.showCriticalJavafxError(e.toString());
         }
     }
@@ -183,7 +183,7 @@ public class SceneInitializer extends Application {
 
             // close the progress scene
             optionsStage.close();
-        } catch (Exception e) {;
+        } catch (Exception e) {
             System.out.println(Arrays.toString(e.getStackTrace()));
             Alerts.showCriticalJavafxError(e.toString());
         }

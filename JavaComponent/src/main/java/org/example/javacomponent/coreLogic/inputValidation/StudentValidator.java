@@ -7,7 +7,7 @@ import org.example.javacomponent.corelogic.Alerts;
 import java.io.FileReader;
 import java.util.List;
 
-public class StudentValidator {
+class StudentValidator {
     protected boolean validate(String inputValue, List errorArrayLst, int counter) {
         String[] splitPairs = errorArrayLst.get(counter).toString().split("="); // split key and value into an Array
         int row = Integer.parseInt(splitPairs[0])-2; // get the row number where the error is present.

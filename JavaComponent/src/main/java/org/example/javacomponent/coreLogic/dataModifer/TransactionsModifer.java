@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.List;
 
-public class TransactionsModifer {
+class TransactionsModifer {
     protected void modify(String inputValue, String fileName, List errorArrayList, int counter){
         String[] splitPairs = errorArrayList.get(counter).toString().split("="); // split key and value into an Array
         int rowIndex = Integer.parseInt(splitPairs[0]) - 1;
