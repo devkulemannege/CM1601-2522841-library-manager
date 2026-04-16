@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import org.example.javacomponent.AppVariables;
 import org.example.javacomponent.SceneInitializer;
 import org.example.javacomponent.corelogic.Alerts;
-import org.example.javacomponent.corelogic.datamodifer.DataModifer;
+import org.example.javacomponent.corelogic.datamodifer.DataModifier;
 import org.example.javacomponent.corelogic.inputvalidation.InputValidator;
 
 import java.io.FileNotFoundException;
@@ -100,7 +100,7 @@ public class ErrorCorrectorController {
                 bookCounter-1, studentCouter-1, transactionsCounter-1);
 
         if (result) {
-            new DataModifer().insertData(
+            new DataModifier().insertData(
                     inputValue, fileNameValue,
                     bookErrorArrayLst, studentErrorArrayLst, transactionsErrorArrayLst,
                     bookCounter-1, studentCouter-1, transactionsCounter-1
