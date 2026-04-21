@@ -58,7 +58,7 @@ def addBook(data):
         if not ( # input validation
                 isbnInput.isnumeric() and
                 len(isbnInput) == 13 and
-                isbnInput[0:3] == 978 or isbnInput[0:3] == 979 and
+                (int(isbnInput[0:3]) == 978 or int(isbnInput[0:3]) == 979) and
                 isbnInput[-1] == checkValidator(isbnInput)
         ):
             print('>> Entered ISBN number is invalid <<\n')
@@ -163,7 +163,7 @@ def updateInfo(data, bookId):
                         print('Book with matching ID already exists.\n')
                         continue
 
-                    data['id'][index] = bookId
+                    data['id'][index] = id_input
                     break
                 case '2':
                     isbn_input = str(input('\n-> New ISBN: '))
@@ -173,7 +173,7 @@ def updateInfo(data, bookId):
                     if not ( # input validation
                             isbn_input.isnumeric() and
                             len(isbn_input) == 13 and
-                            isbn_input[0:3] == 978 or isbn_input[0:3] == 979 and
+                            (int(isbn_input[0:3]) == 978 or int(isbn_input[0:3]) == 979) and
                             isbn_input[-1] == checkValidator(isbn_input)
                     ):
                         print('>> Entered ISBN number is invalid <<\n')
