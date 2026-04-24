@@ -54,8 +54,8 @@ public class CostCalculatorController {
     @FXML
     protected void calculateBtnClick() {
         /* show average calculation result */
-        double avergeCostValue = totalNoOfBooks * totalCost;
-        averageCost.setText(String.format("$%.2f", avergeCostValue)); // display calculated average cost
+        double averageCostValue = totalCost / totalNoOfBooks;
+        averageCost.setText(String.format("$%.2f", averageCostValue)); // display calculated average cost
     }
 
     @FXML
